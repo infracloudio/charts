@@ -5,28 +5,27 @@ A repo for all Helm charts from InfraCloud
 
 Once you have a helm chart ready, follow the steps to add it in the chart repo
 
-#### Validate helm chart
+- Validate helm chart
 
-```bash
-$ helm lint example/alpine/
-```
+  ```bash
+  $ helm lint example/alpine/
+  ```
+  Fix helm lint issues if there are any.
 
-   Fix helm lint issues if there are any.
+- Package the helm chart
 
-#### Package the helm chart
+  ```bash
+  $ helm package examples/alpine
+  ```
 
-```bash
-$ helm package examples/alpine
-```
+- Create a branch on top of `gh-pages`
 
-#### Create a branch on top of `gh-pages`
+- Add helm chart package to `infracloudio/charts`
 
-#### Add helm chart package to `infracloudio/charts`
+- Build the index
 
-#### Build the index
+  ```bash
+  $ helm repo index --url https://infracloudio.github.io/charts --merge index.yaml .
+  ```
 
-```bash
-$ helm repo index --url https://infracloudio.github.io/charts --merge index.yaml .
-```
-
-#### Commit, push and raise a PR against `gh-pages`
+- Commit, push and raise a PR against `gh-pages`
