@@ -3,11 +3,11 @@ entries:
   botkube:
   - apiVersion: v1
     appVersion: v9.99.9-dev
-    created: "2019-11-12T17:27:54.45472661Z"
+    created: "2019-11-19T12:39:06.383777555Z"
     description: Controller for the BotKube Slack app which helps you monitor your
       Kubernetes cluster, debug deployments and run specific checks on resources in
       the cluster.
-    digest: aca40d573dcb80e5fa8a3e997166d1d50258eabe67f495a6789101bd43009188
+    digest: a3497d5fab51df40ffbcabc6cb05a8fe2d9310f14bef94e490bd7643f06a061e
     home: https://www.botkube.io
     icon: https://www.botkube.io/images/botkube.ico
     keywords:
@@ -32,7 +32,7 @@ entries:
     version: v9.99.9-dev
   - apiVersion: v1
     appVersion: v0.9.0
-    created: "2019-11-12T17:27:54.453937047Z"
+    created: "2019-11-19T12:39:06.382871578Z"
     description: Controller for the BotKube Slack app which helps you monitor your
       Kubernetes cluster, debug deployments and run specific checks on resources in
       the cluster.
@@ -61,7 +61,7 @@ entries:
     version: v0.9.0
   - apiVersion: v1
     appVersion: v0.8.0
-    created: "2019-11-12T17:27:54.453154728Z"
+    created: "2019-11-19T12:39:06.38202279Z"
     description: Controller for the BotKube Slack app which helps you monitor your
       Kubernetes cluster, debug deployments and run specific checks on resources in
       the cluster.
@@ -90,7 +90,7 @@ entries:
     version: v0.8.0
   - apiVersion: v1
     appVersion: v0.7.0
-    created: "2019-11-12T17:27:54.452341506Z"
+    created: "2019-11-19T12:39:06.381253096Z"
     description: Controller for the BotKube Slack app which helps you monitor your
       Kubernetes cluster, debug deployments and run specific checks on resources in
       the cluster.
@@ -119,7 +119,7 @@ entries:
     version: v0.7.0
   - apiVersion: v1
     appVersion: v0.6.0
-    created: "2019-11-12T17:27:54.451517985Z"
+    created: "2019-11-19T12:39:06.380057213Z"
     description: Controller for the BotKube Slack app which helps you monitor your
       Kubernetes cluster, debug deployments and run specific checks on resources in
       the cluster.
@@ -146,4 +146,4 @@ entries:
     urls:
     - https://infracloudio.github.io/charts/botkube-v0.6.0.tgz
     version: v0.6.0
-generated: "2019-11-12T17:27:54.449942492Z"
+generated: "2019-11-19T12:39:06.379295763Z"
