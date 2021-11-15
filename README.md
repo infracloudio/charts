@@ -1,4 +1,4 @@
-# charts
+# charts [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/infracloudio)](https://artifacthub.io/packages/search?repo=infracloudio)
 A repo for all Helm charts from InfraCloud
 
 ## Steps for adding new helm chart
