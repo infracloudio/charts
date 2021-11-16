@@ -2,7 +2,7 @@
 # Artifact Hub repository metadata file
 #
 # Reference:  https://github.com/artifacthub/hub/blob/master/docs/metadata/artifacthub-repo.yml
-repositoryID: b4061038-26f7-405a-832b-a1ecd85005da
+repositoryID: b5349342-b6df-48fa-8ec2-d397dc78ec7e
 owners: # (optional, used to claim repository ownership)
   - name: Sanket Sudake
     email: sanket@infracloud.io
