@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: {{ .Values.kind }}
 metadata:
-  name: {{ include "tgi.fullname" . }}
+  name: {{ include "text-embeddings-inference.fullname" . }}
   labels:
-    {{- include "tgi.labels" . | nindent 4 }}
+    {{- include "text-embeddings-inference.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "tgi.selectorLabels" . | nindent 6 }}
+      {{- include "text-embeddings-inference.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -18,7 +18,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "tgi.labels" . | nindent 8 }}
+        {{- include "text-embeddings-inference.labels" . | nindent 8 }}
         {{- with .Values.podLabels }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
@@ -27,7 +27,7 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "tgi.serviceAccountName" . }}
+      serviceAccountName: {{ include "text-embeddings-inference.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:

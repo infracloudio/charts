@@ -2,14 +2,14 @@
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: {{ include "tgi.fullname" . }}
+  name: {{ include "text-generation-inference.fullname" . }}
   labels:
-    {{- include "tgi.labels" . | nindent 4 }}
+    {{- include "text-generation-inference.labels" . | nindent 4 }}
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: {{ include "tgi.fullname" . }}
+    name: {{ include "text-generation-inference.fullname" . }}
   minReplicas: {{ .Values.autoscaling.minReplicas }}
   maxReplicas: {{ .Values.autoscaling.maxReplicas }}
   metrics:
