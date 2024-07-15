@@ -379,6 +379,17 @@ entries:
   text-embeddings-inference:
   - apiVersion: v2
     appVersion: 1.5.0
+    created: "2024-07-15T16:48:46.167299536Z"
+    description: A Helm chart for deploying Text Embeddings Inference from Hugging
+      Face
+    digest: e716c9f0ec06e222fe19ecaba5b8577f326b12da687d07f3e7426e66bf45cea0
+    name: text-embeddings-inference
+    type: application
+    urls:
+    - https://github.com/infracloudio/charts/releases/download/text-embeddings-inference-0.1.1/text-embeddings-inference-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
+    appVersion: 1.5.0
     created: "2024-07-15T16:29:13.004479642Z"
     description: A Helm chart for deploying Text Embeddings Inference from Hugging
       Face
@@ -389,6 +400,17 @@ entries:
     - https://github.com/infracloudio/charts/releases/download/text-embeddings-inference-0.1.0/text-embeddings-inference-0.1.0.tgz
     version: 0.1.0
   text-generation-inference:
+  - apiVersion: v2
+    appVersion: 2.1.1
+    created: "2024-07-15T16:48:46.273560633Z"
+    description: A Helm chart for deploying Text Generation Inference from Hugging
+      Face
+    digest: 9facd52f54ed73a32fc8950a772804948b3cb14646407dcc6ab7ea17548f4562
+    name: text-generation-inference
+    type: application
+    urls:
+    - https://github.com/infracloudio/charts/releases/download/text-generation-inference-0.1.1/text-generation-inference-0.1.1.tgz
+    version: 0.1.1
   - apiVersion: v2
     appVersion: 2.1.1
     created: "2024-07-15T16:29:13.135075691Z"
@@ -411,4 +433,4 @@ entries:
     urls:
     - https://github.com/infracloudio/charts/releases/download/tgi-0.1.0/tgi-0.1.0.tgz
     version: 0.1.0
-generated: "2024-07-15T16:29:13.135118361Z"
+generated: "2024-07-15T16:48:46.273609224Z"
