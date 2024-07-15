@@ -6,6 +6,12 @@ replicaCount: 1
 
 kind: Deployment
 
+strategy: {}
+  # rollingUpdate:
+  #   maxSurge: 1
+  #   maxUnavailable: 1
+  # type: RollingUpdate
+
 image:
   repository: ghcr.io/huggingface/text-generation-inference
   pullPolicy: IfNotPresent
