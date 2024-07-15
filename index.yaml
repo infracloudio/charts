@@ -376,4 +376,15 @@ entries:
     urls:
     - https://infracloudio.github.io/charts/botkube-v0.6.0.tgz
     version: v0.6.0
-generated: "2022-07-06T12:27:35.536742976Z"
+  tgi:
+  - apiVersion: v2
+    appVersion: 2.1.1
+    created: "2024-07-15T15:52:31.038364631Z"
+    description: Deployment of Text Generation Inference from Hugging Face
+    digest: c3a145eb3dbb5b5d83ae6aa278b12cf4ea693c3d1e9d1e40ca4a6a20ed82d26d
+    name: tgi
+    type: application
+    urls:
+    - https://github.com/infracloudio/charts/releases/download/tgi-0.1.0/tgi-0.1.0.tgz
+    version: 0.1.0
+generated: "2024-07-15T15:52:31.038458776Z"
