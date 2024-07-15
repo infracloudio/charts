@@ -376,6 +376,30 @@ entries:
     urls:
     - https://infracloudio.github.io/charts/botkube-v0.6.0.tgz
     version: v0.6.0
+  text-embeddings-inference:
+  - apiVersion: v2
+    appVersion: 1.5.0
+    created: "2024-07-15T16:29:13.004479642Z"
+    description: A Helm chart for deploying Text Embeddings Inference from Hugging
+      Face
+    digest: 10a6b43e64f356920d0104478d413101095452ed2c4a20c8c15d2b488191c07b
+    name: text-embeddings-inference
+    type: application
+    urls:
+    - https://github.com/infracloudio/charts/releases/download/text-embeddings-inference-0.1.0/text-embeddings-inference-0.1.0.tgz
+    version: 0.1.0
+  text-generation-inference:
+  - apiVersion: v2
+    appVersion: 2.1.1
+    created: "2024-07-15T16:29:13.135075691Z"
+    description: A Helm chart for deploying Text Generation Inference from Hugging
+      Face
+    digest: c5fc3abddd54de14b61585d398b1cb1eb2f94e7c531eb9db608782fe60bd13b8
+    name: text-generation-inference
+    type: application
+    urls:
+    - https://github.com/infracloudio/charts/releases/download/text-generation-inference-0.1.0/text-generation-inference-0.1.0.tgz
+    version: 0.1.0
   tgi:
   - apiVersion: v2
     appVersion: 2.1.1
@@ -387,4 +411,4 @@ entries:
     urls:
     - https://github.com/infracloudio/charts/releases/download/tgi-0.1.0/tgi-0.1.0.tgz
     version: 0.1.0
-generated: "2024-07-15T15:52:31.038458776Z"
+generated: "2024-07-15T16:29:13.135118361Z"
