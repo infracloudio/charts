@@ -17,6 +17,7 @@ command: ["text-generation-launcher"]
 env:
   # - name: MY_ENV_VAR
   #   value: my-env-var-value
+  # Reference: https://huggingface.co/docs/text-generation-inference/main/en/basic_tutorials/launcher
   - name: MODEL_ID
     value: microsoft/phi-1_5
   - name: MAX_INPUT_TOKENS
