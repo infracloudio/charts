@@ -6,8 +6,8 @@ This chart deploys the AI stack on a Kubernetes cluster using the Helm package m
 
 The AI stack consists of the following components:
 
-- Text Embeddings Inference(TEI)
-- Text Generation Inference(TGI)
+- [Text Embeddings Inference(TEI)](../text-embeddings-inference/)
+- [Text Generation Inference(TGI)](../text-generation-inference/)
 
 ## Setup Helm Repository
 
