@@ -25,13 +25,13 @@ appVersion: ""
 
 dependencies:
   - name: text-generation-inference
-    version: 0.1.2
-    repository: "file://../text-generation-inference"
+    version: 0.1.1
+    repository: "https://infracloudio.github.io/charts"
     alias: tgi
     condition: tgi.enabled
   
   - name: text-embeddings-inference
-    version: 0.1.2
-    repository: "file://../text-embeddings-inference"
+    version: 0.1.1
+    repository: "https://infracloudio.github.io/charts"
     alias: tei
     condition: tei.enabled

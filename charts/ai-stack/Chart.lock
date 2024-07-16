@@ -1,9 +1,9 @@
 dependencies:
 - name: text-generation-inference
-  repository: file://../text-generation-inference
-  version: 0.1.2
+  repository: https://infracloudio.github.io/charts
+  version: 0.1.1
 - name: text-embeddings-inference
-  repository: file://../text-embeddings-inference
-  version: 0.1.2
-digest: sha256:77a1b777ff09b33b9940105305ade8896881671c94bee25285c8855b9179d426
-generated: "2024-07-16T13:52:43.716392+05:30"
+  repository: https://infracloudio.github.io/charts
+  version: 0.1.1
+digest: sha256:03b9860baccbba01ab701b07ab16fd12c6558b3a1920f806b623bef2cc5d03bd
+generated: "2024-07-16T15:49:37.371821+05:30"
