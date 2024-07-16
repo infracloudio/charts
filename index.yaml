@@ -1,5 +1,26 @@
 apiVersion: v1
 entries:
+  ai-stack:
+  - apiVersion: v2
+    created: "2024-07-16T10:23:58.755194847Z"
+    dependencies:
+    - alias: tgi
+      condition: tgi.enabled
+      name: text-generation-inference
+      repository: https://infracloudio.github.io/charts
+      version: 0.1.1
+    - alias: tei
+      condition: tei.enabled
+      name: text-embeddings-inference
+      repository: https://infracloudio.github.io/charts
+      version: 0.1.1
+    description: A Helm chart for Kubernetes
+    digest: efce89206767404dcf5ff6353379f9c9dd0e8677078210222e4d205c67137677
+    name: ai-stack
+    type: application
+    urls:
+    - https://github.com/infracloudio/charts/releases/download/ai-stack-0.1.0/ai-stack-0.1.0.tgz
+    version: 0.1.0
   botkube:
   - apiVersion: v1
     appVersion: v9.99.9-dev
@@ -379,6 +400,17 @@ entries:
   text-embeddings-inference:
   - apiVersion: v2
     appVersion: 1.5.0
+    created: "2024-07-16T10:23:58.872242896Z"
+    description: A Helm chart for deploying Text Embeddings Inference from Hugging
+      Face
+    digest: 28179b0d53e4a18738d0f0e838eb8d01505e8d7de2de2fb8708bcb9ecef48660
+    name: text-embeddings-inference
+    type: application
+    urls:
+    - https://github.com/infracloudio/charts/releases/download/text-embeddings-inference-0.1.2/text-embeddings-inference-0.1.2.tgz
+    version: 0.1.2
+  - apiVersion: v2
+    appVersion: 1.5.0
     created: "2024-07-15T16:48:46.167299536Z"
     description: A Helm chart for deploying Text Embeddings Inference from Hugging
       Face
@@ -400,6 +432,17 @@ entries:
     - https://github.com/infracloudio/charts/releases/download/text-embeddings-inference-0.1.0/text-embeddings-inference-0.1.0.tgz
     version: 0.1.0
   text-generation-inference:
+  - apiVersion: v2
+    appVersion: 2.1.1
+    created: "2024-07-16T10:23:59.006670198Z"
+    description: A Helm chart for deploying Text Generation Inference from Hugging
+      Face
+    digest: 173f69e747cb3b4e60314f29bed299be78eb1e9429d1159c34d82a96189e776a
+    name: text-generation-inference
+    type: application
+    urls:
+    - https://github.com/infracloudio/charts/releases/download/text-generation-inference-0.1.2/text-generation-inference-0.1.2.tgz
+    version: 0.1.2
   - apiVersion: v2
     appVersion: 2.1.1
     created: "2024-07-15T16:48:46.273560633Z"
@@ -433,4 +476,4 @@ entries:
     urls:
     - https://github.com/infracloudio/charts/releases/download/tgi-0.1.0/tgi-0.1.0.tgz
     version: 0.1.0
-generated: "2024-07-15T16:48:46.273609224Z"
+generated: "2024-07-16T10:23:59.006755517Z"
