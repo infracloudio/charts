@@ -1,0 +1,55 @@
+# Default values for ai-stack.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# Values for the text-generation-inference chart
+tei:
+  enabled: true
+
+  config:
+    modelID: "BAAI/bge-large-en-v1.5"
+
+  env:
+    - name: MAX_CLIENT_BATCH_SIZE
+      value: "1024"
+    - name: RUST_BACKTRACE
+      value: "full"
+
+  resources:
+    limits:
+      nvidia.com/gpu: 1
+    requests:
+      nvidia.com/gpu: 1
+
+  strategy:
+    type: Recreate
+
+  service:
+    type: LoadBalancer
+    port: 80
+
+# Values for the text-embeddings-inference chart
+tgi:
+  enabled: true
+
+  config:
+    modelID: "Qwen/Qwen2-7B-Instruct"
+
+  env:
+    - name: MAX_INPUT_TOKENS
+      value: "6144"
+    - name: MAX_TOTAL_TOKENS
+      value: "8192"
+
+  resources:
+    limits:
+      nvidia.com/gpu: 1
+    requests:
+      nvidia.com/gpu: 1
+
+  strategy:
+    type: Recreate
+
+  service:
+    type: LoadBalancer
+    port: 80
