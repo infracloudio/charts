@@ -400,6 +400,25 @@ entries:
   text-embeddings-inference:
   - apiVersion: v2
     appVersion: 1.5.0
+    created: "2024-07-16T11:00:57.303416996Z"
+    description: A Helm chart for deploying Text Embeddings Inference from Hugging
+      Face
+    digest: 6d844c3acc82da29f6167f7f0f634eb92619e086350ccf32e492085511ce6868
+    keywords:
+    - tei
+    - text-embeddings-inference
+    - embeddings
+    - huggingface
+    - rag
+    name: text-embeddings-inference
+    sources:
+    - https://github.com/huggingface/text-embeddings-inference
+    type: application
+    urls:
+    - https://github.com/infracloudio/charts/releases/download/text-embeddings-inference-0.1.3/text-embeddings-inference-0.1.3.tgz
+    version: 0.1.3
+  - apiVersion: v2
+    appVersion: 1.5.0
     created: "2024-07-16T10:23:58.872242896Z"
     description: A Helm chart for deploying Text Embeddings Inference from Hugging
       Face
@@ -432,6 +451,25 @@ entries:
     - https://github.com/infracloudio/charts/releases/download/text-embeddings-inference-0.1.0/text-embeddings-inference-0.1.0.tgz
     version: 0.1.0
   text-generation-inference:
+  - apiVersion: v2
+    appVersion: 2.1.1
+    created: "2024-07-16T11:00:57.445661959Z"
+    description: A Helm chart for deploying Text Generation Inference from Hugging
+      Face
+    digest: c32eb0773f39ebfaa04701b5e9985a1e1aefd4ac686e5e2b369bd7260902ce7c
+    keywords:
+    - tgi
+    - text-generation-inference
+    - llm
+    - huggingface
+    - rag
+    name: text-generation-inference
+    sources:
+    - https://github.com/huggingface/text-generation-inference
+    type: application
+    urls:
+    - https://github.com/infracloudio/charts/releases/download/text-generation-inference-0.1.3/text-generation-inference-0.1.3.tgz
+    version: 0.1.3
   - apiVersion: v2
     appVersion: 2.1.1
     created: "2024-07-16T10:23:59.006670198Z"
@@ -476,4 +514,4 @@ entries:
     urls:
     - https://github.com/infracloudio/charts/releases/download/tgi-0.1.0/tgi-0.1.0.tgz
     version: 0.1.0
-generated: "2024-07-16T10:23:59.006755517Z"
+generated: "2024-07-16T11:00:57.445716701Z"
