@@ -1,0 +1,9 @@
+dependencies:
+- name: text-generation-inference
+  repository: file://../text-generation-inference
+  version: 0.1.2
+- name: text-embeddings-inference
+  repository: file://../text-embeddings-inference
+  version: 0.1.2
+digest: sha256:77a1b777ff09b33b9940105305ade8896881671c94bee25285c8855b9179d426
+generated: "2024-07-16T13:52:43.716392+05:30"

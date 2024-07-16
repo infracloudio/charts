@@ -20,16 +20,17 @@ image:
 
 command: ["text-generation-launcher"]
 
-env:
-  # - name: MY_ENV_VAR
-  #   value: my-env-var-value
+config:
+  # The name of the model to use. Can be a MODEL_ID as listed on <https://hf.co/models> like `gpt2` or `OpenAssistant/oasst-sft-1-pythia-12b`.
+  # If you mention MODEL_ID, environment variable would take precedence. 
+  modelID: "bigscience/bloom-560m"
+
+env: []
   # Reference: https://huggingface.co/docs/text-generation-inference/main/en/basic_tutorials/launcher
-  - name: MODEL_ID
-    value: microsoft/phi-1_5
-  - name: MAX_INPUT_TOKENS
-    value: "6144"
-  - name: MAX_OUTPUT_TOKENS
-    value: "8192"
+  # - name: MAX_INPUT_TOKENS
+  #   value: "6144"
+  # - name: MAX_OUTPUT_TOKENS
+  #   value: "8192"
 
 imagePullSecrets: []
 nameOverride: ""
