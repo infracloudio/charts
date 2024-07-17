@@ -29,12 +29,18 @@ dependencies:
     repository: "https://infracloudio.github.io/charts"
     alias: tgi
     condition: tgi.enabled
-  
+
   - name: text-embeddings-inference
     version: 0.1.3
     repository: "https://infracloudio.github.io/charts"
     alias: tei
     condition: tei.enabled
+
+  - name: text-embeddings-inference
+    version: 0.1.3
+    repository: "https://infracloudio.github.io/charts"
+    alias: reranker
+    condition: reranker.enabled
 
   - name: chromadb
     version: 0.1.19
