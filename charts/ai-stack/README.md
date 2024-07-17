@@ -20,6 +20,12 @@ See [helm repo](https://helm.sh/docs/helm/helm_repo/) for command documentation.
 
 ## Installing the Chart
 
+Create a secret with HuggingFace token:
+
+```bash
+kubectl create secret generic hf-api-token --from-literal HF_API_TOKEN=<your-huggingface-token>
+```
+
 To install the chart with the release name `ai-stack`:
 
 ```bash

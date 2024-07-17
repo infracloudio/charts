@@ -3,6 +3,7 @@
 # Declare variables to be passed into your templates.
 
 # Values for the text-generation-inference chart
+# Reference: https://artifacthub.io/packages/helm/infracloud-charts/text-generation-inference?modal=values
 tei:
   enabled: true
 
@@ -14,6 +15,11 @@ tei:
       value: "1024"
     - name: RUST_BACKTRACE
       value: "full"
+    - name: HF_API_TOKEN
+      valueFrom:
+        secretKeyRef:
+          name: hf-api-token
+          key: HF_API_TOKEN
 
   resources:
     limits:
@@ -28,7 +34,18 @@ tei:
     type: LoadBalancer
     port: 80
 
+  volumeMounts:
+    - name: hf-cache
+      mountPath: /data
+
+  volumes:
+    - name: hf-cache
+      persistentVolumeClaim:
+        claimName: hf-cache
+
+
 # Values for the text-embeddings-inference chart
+# Reference: https://artifacthub.io/packages/helm/infracloud-charts/text-embeddings-inference?modal=values
 tgi:
   enabled: true
 
@@ -40,6 +57,11 @@ tgi:
       value: "6144"
     - name: MAX_TOTAL_TOKENS
       value: "8192"
+    - name: HF_API_TOKEN
+      valueFrom:
+        secretKeyRef:
+          name: hf-api-token
+          key: HF_API_TOKEN
 
   resources:
     limits:
@@ -53,3 +75,48 @@ tgi:
   service:
     type: LoadBalancer
     port: 80
+
+  volumeMounts:
+    - name: hf-cache
+      mountPath: /data
+
+  volumes:
+    - name: hf-cache
+      persistentVolumeClaim:
+        claimName: hf-cache
+    - name: shm
+      emptyDir:
+        medium: Memory
+        sizeLimit: "1Gi"
+
+
+# Values for the vectordb(chromadb) chart
+# Reference: https://artifacthub.io/packages/helm/chromadb-helm/chromadb?modal=values
+vectordb:
+  enabled: true
+
+  service:
+    type: LoadBalancer
+
+huggingface:
+
+  cache:
+    enabled: true
+
+    existingClaim: ""
+
+    persistentVolumeClaim:
+      ## Ref: http://kubernetes.io/docs/user-guide/persistent-volum
+      accessModes:
+        - ReadWriteMany
+
+      name: "hf-cache"
+
+      labels: {}
+
+      annotations:
+        nfs.io/storage-path: "hf/hub"
+
+      storageClassName: "controller-nfs"
+
+      size: "50Gi"
