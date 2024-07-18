@@ -18,7 +18,7 @@ image:
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
 
-command: ["text-embeddings-launcher"]
+command: ["text-embeddings-router"]
 
 config:
   # The name of the model to use. Can be a MODEL_ID as listed on <https://hf.co/models> like `thenlper/gte-base`.
