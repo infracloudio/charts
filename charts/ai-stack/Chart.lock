@@ -5,8 +5,11 @@ dependencies:
 - name: text-embeddings-inference
   repository: https://infracloudio.github.io/charts
   version: 0.1.3
+- name: text-embeddings-inference
+  repository: https://infracloudio.github.io/charts
+  version: 0.1.3
 - name: chromadb
   repository: https://amikos-tech.github.io/chromadb-chart/
   version: 0.1.19
-digest: sha256:05ba005e3d493eccad2f831ffa151ee9de81b24597c4f347741d8cb1624feec8
-generated: "2024-07-17T13:32:27.60585+05:30"
+digest: sha256:6db9975adc440a5a6f7e5d7f87f07e436684205a5f9901a9fa8a2686264b278d
+generated: "2024-07-18T14:45:15.973962+05:30"
