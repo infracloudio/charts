@@ -430,6 +430,25 @@ entries:
   text-embeddings-inference:
   - apiVersion: v2
     appVersion: 1.5.0
+    created: "2024-07-18T11:01:38.597210403Z"
+    description: A Helm chart for deploying Text Embeddings Inference from Hugging
+      Face
+    digest: d99f35eaa16d8146040217ba1cf32bc26979eae5b3185d9f8bece87060e38a53
+    keywords:
+    - tei
+    - text-embeddings-inference
+    - embeddings
+    - huggingface
+    - rag
+    name: text-embeddings-inference
+    sources:
+    - https://github.com/huggingface/text-embeddings-inference
+    type: application
+    urls:
+    - https://github.com/infracloudio/charts/releases/download/text-embeddings-inference-0.1.4/text-embeddings-inference-0.1.4.tgz
+    version: 0.1.4
+  - apiVersion: v2
+    appVersion: 1.5.0
     created: "2024-07-16T11:00:57.303416996Z"
     description: A Helm chart for deploying Text Embeddings Inference from Hugging
       Face
@@ -544,4 +563,4 @@ entries:
     urls:
     - https://github.com/infracloudio/charts/releases/download/tgi-0.1.0/tgi-0.1.0.tgz
     version: 0.1.0
-generated: "2024-07-18T09:19:08.801212005Z"
+generated: "2024-07-18T11:01:38.597282187Z"
