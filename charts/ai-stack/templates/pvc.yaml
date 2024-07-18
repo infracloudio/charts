@@ -1,0 +1,24 @@
+{{- if .Values.huggingface.cache.enabled }}
+{{- if not .Values.huggingface.cache.existingClaim}}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .Values.huggingface.cache.persistentVolumeClaim.name }}
+  labels:
+    {{- include "ai-stack.labels" . | nindent 4 }}
+    {{- with .Values.huggingface.cache.persistentVolumeClaim.labels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+  annotations:
+    {{- with .Values.huggingface.cache.persistentVolumeClaim.annotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  storageClassName: {{ .Values.huggingface.cache.persistentVolumeClaim.storageClassName }}
+  accessModes:
+    {{- toYaml .Values.huggingface.cache.persistentVolumeClaim.accessModes | nindent 4 }}
+  resources:
+    requests:
+      storage: {{ .Values.huggingface.cache.persistentVolumeClaim.size }}
+{{- end }}
+{{- end }}
