@@ -2,6 +2,36 @@ apiVersion: v1
 entries:
   ai-stack:
   - apiVersion: v2
+    created: "2024-07-19T11:57:42.514351021Z"
+    dependencies:
+    - alias: tgi
+      condition: tgi.enabled
+      name: text-generation-inference
+      repository: https://infracloudio.github.io/charts
+      version: 0.1.4
+    - alias: tei
+      condition: tei.enabled
+      name: text-embeddings-inference
+      repository: https://infracloudio.github.io/charts
+      version: 0.1.5
+    - alias: reranker
+      condition: reranker.enabled
+      name: text-embeddings-inference
+      repository: https://infracloudio.github.io/charts
+      version: 0.1.5
+    - alias: vectordb
+      condition: vectordb.enabled
+      name: chromadb
+      repository: https://amikos-tech.github.io/chromadb-chart/
+      version: 0.1.19
+    description: A Helm chart for Kubernetes
+    digest: 6d41de37c2c85612407290671b8ad4e8107ee276ef6115fe0e0702f967e66141
+    name: ai-stack
+    type: application
+    urls:
+    - https://github.com/infracloudio/charts/releases/download/ai-stack-0.2.2/ai-stack-0.2.2.tgz
+    version: 0.2.2
+  - apiVersion: v2
     created: "2024-07-18T11:10:47.538615374Z"
     dependencies:
     - alias: tgi
@@ -631,4 +661,4 @@ entries:
     urls:
     - https://github.com/infracloudio/charts/releases/download/tgi-0.1.0/tgi-0.1.0.tgz
     version: 0.1.0
-generated: "2024-07-19T11:52:43.553688026Z"
+generated: "2024-07-19T11:57:42.514418096Z"
