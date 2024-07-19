@@ -65,6 +65,20 @@ service:
   type: ClusterIP
   port: 80
 
+serviceMonitor:
+  # Enable the creation of a ServiceMonitor resource
+  enabled: false
+  # Specify the namespace the ServiceMonitor resource should be created in
+  namespace: ""
+  # Specify the interval at which metrics should be scraped
+  interval: 30s
+  # Specify the scrape timeout
+  scrapeTimeout: 10s
+  # path to scrape for metrics
+  path: /metrics
+  # additional labels to add to the ServiceMonitor
+  additionalLabels: {}
+
 ingress:
   enabled: false
   className: ""
