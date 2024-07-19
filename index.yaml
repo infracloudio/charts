@@ -460,6 +460,25 @@ entries:
   text-embeddings-inference:
   - apiVersion: v2
     appVersion: 1.5.0
+    created: "2024-07-19T11:52:43.345464211Z"
+    description: A Helm chart for deploying Text Embeddings Inference from Hugging
+      Face
+    digest: cfdd6bf3b948da847e9b185e7ffa2ae7924eb10ca3a381bb24c8075248067c04
+    keywords:
+    - tei
+    - text-embeddings-inference
+    - embeddings
+    - huggingface
+    - rag
+    name: text-embeddings-inference
+    sources:
+    - https://github.com/huggingface/text-embeddings-inference
+    type: application
+    urls:
+    - https://github.com/infracloudio/charts/releases/download/text-embeddings-inference-0.1.5/text-embeddings-inference-0.1.5.tgz
+    version: 0.1.5
+  - apiVersion: v2
+    appVersion: 1.5.0
     created: "2024-07-18T11:01:38.597210403Z"
     description: A Helm chart for deploying Text Embeddings Inference from Hugging
       Face
@@ -532,6 +551,25 @@ entries:
   text-generation-inference:
   - apiVersion: v2
     appVersion: 2.1.1
+    created: "2024-07-19T11:52:43.55359396Z"
+    description: A Helm chart for deploying Text Generation Inference from Hugging
+      Face
+    digest: 47d4bb98f8657f8c180b8f3a42fda8d68b368d4b6152cb5660107fe09a10a610
+    keywords:
+    - tgi
+    - text-generation-inference
+    - llm
+    - huggingface
+    - rag
+    name: text-generation-inference
+    sources:
+    - https://github.com/huggingface/text-generation-inference
+    type: application
+    urls:
+    - https://github.com/infracloudio/charts/releases/download/text-generation-inference-0.1.4/text-generation-inference-0.1.4.tgz
+    version: 0.1.4
+  - apiVersion: v2
+    appVersion: 2.1.1
     created: "2024-07-16T11:00:57.445661959Z"
     description: A Helm chart for deploying Text Generation Inference from Hugging
       Face
@@ -593,4 +631,4 @@ entries:
     urls:
     - https://github.com/infracloudio/charts/releases/download/tgi-0.1.0/tgi-0.1.0.tgz
     version: 0.1.0
-generated: "2024-07-18T11:10:47.538704962Z"
+generated: "2024-07-19T11:52:43.553688026Z"
