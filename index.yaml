@@ -487,6 +487,19 @@ entries:
     urls:
     - https://infracloudio.github.io/charts/botkube-v0.6.0.tgz
     version: v0.6.0
+  chromadb:
+  - apiVersion: v2
+    appVersion: 0.5.4
+    created: "2024-07-22T09:39:53.923290054Z"
+    description: A Helm chart for Kubernetes
+    digest: 721fad2a03ba4e54a72a14ac7956df0184293aac0ce8c89d9f6abf650764199b
+    name: chromadb
+    sources:
+    - https://github.com/chroma-core/chroma
+    type: application
+    urls:
+    - https://github.com/infracloudio/charts/releases/download/chromadb-0.1.0/chromadb-0.1.0.tgz
+    version: 0.1.0
   text-embeddings-inference:
   - apiVersion: v2
     appVersion: 1.5.0
@@ -661,4 +674,4 @@ entries:
     urls:
     - https://github.com/infracloudio/charts/releases/download/tgi-0.1.0/tgi-0.1.0.tgz
     version: 0.1.0
-generated: "2024-07-19T11:57:42.514418096Z"
+generated: "2024-07-22T09:39:53.923355436Z"
