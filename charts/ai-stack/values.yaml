@@ -97,6 +97,29 @@ vectordb:
 
   service:
     type: LoadBalancer
+    port: 8000
+
+  pvc:
+    enabled: true
+
+    persistentVolumeClaim:
+      name: "db-data"
+
+      annotations:
+        nfs.io/storage-path: "vectordb/data"
+
+      storageClassName: "controller-nfs"
+
+      size: "2Gi"
+
+  volumeMounts:
+    - name: db-data
+      mountPath: /chroma/chroma/
+
+  volumes:
+    - name: db-data
+      persistentVolumeClaim:
+        claimName: db-data
 
 huggingface:
 
