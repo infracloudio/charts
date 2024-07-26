@@ -520,6 +520,18 @@ entries:
   chromadb:
   - apiVersion: v2
     appVersion: 0.5.4
+    created: "2024-07-26T05:26:35.968533543Z"
+    description: A Helm chart for Kubernetes
+    digest: a842cb8d43d1901816752d06cb7bf57e44285ab4317c3effe7b771b632d6c4d6
+    name: chromadb
+    sources:
+    - https://github.com/chroma-core/chroma
+    type: application
+    urls:
+    - https://github.com/infracloudio/charts/releases/download/chromadb-0.1.2/chromadb-0.1.2.tgz
+    version: 0.1.2
+  - apiVersion: v2
+    appVersion: 0.5.4
     created: "2024-07-22T10:08:53.193690742Z"
     description: A Helm chart for Kubernetes
     digest: 1242970b7286e69cb479b5d206fc33c6980fcfb10190f0d986430058827baba1
@@ -716,4 +728,4 @@ entries:
     urls:
     - https://github.com/infracloudio/charts/releases/download/tgi-0.1.0/tgi-0.1.0.tgz
     version: 0.1.0
-generated: "2024-07-22T10:14:09.028084142Z"
+generated: "2024-07-26T05:26:35.968607521Z"
