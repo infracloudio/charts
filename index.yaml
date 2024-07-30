@@ -587,6 +587,25 @@ entries:
   text-embeddings-inference:
   - apiVersion: v2
     appVersion: 1.5.0
+    created: "2024-07-30T06:29:12.799670244Z"
+    description: A Helm chart for deploying Text Embeddings Inference from Hugging
+      Face
+    digest: 437053e4e9ed0532aec9295c930ccef2c41ccf0ce6eb04e51df3290a26d5cf47
+    keywords:
+    - tei
+    - text-embeddings-inference
+    - embeddings
+    - huggingface
+    - rag
+    name: text-embeddings-inference
+    sources:
+    - https://github.com/huggingface/text-embeddings-inference
+    type: application
+    urls:
+    - https://github.com/infracloudio/charts/releases/download/text-embeddings-inference-0.1.6/text-embeddings-inference-0.1.6.tgz
+    version: 0.1.6
+  - apiVersion: v2
+    appVersion: 1.5.0
     created: "2024-07-19T11:52:43.345464211Z"
     description: A Helm chart for deploying Text Embeddings Inference from Hugging
       Face
@@ -677,6 +696,25 @@ entries:
     version: 0.1.0
   text-generation-inference:
   - apiVersion: v2
+    appVersion: 2.2.0
+    created: "2024-07-30T06:29:12.908642192Z"
+    description: A Helm chart for deploying Text Generation Inference from Hugging
+      Face
+    digest: f283ede5c6d8da54cd27674764d0b2ef874b01aa8a668d867fcec6ca09120476
+    keywords:
+    - tgi
+    - text-generation-inference
+    - llm
+    - huggingface
+    - rag
+    name: text-generation-inference
+    sources:
+    - https://github.com/huggingface/text-generation-inference
+    type: application
+    urls:
+    - https://github.com/infracloudio/charts/releases/download/text-generation-inference-0.1.5/text-generation-inference-0.1.5.tgz
+    version: 0.1.5
+  - apiVersion: v2
     appVersion: 2.1.1
     created: "2024-07-19T11:52:43.55359396Z"
     description: A Helm chart for deploying Text Generation Inference from Hugging
@@ -758,4 +796,4 @@ entries:
     urls:
     - https://github.com/infracloudio/charts/releases/download/tgi-0.1.0/tgi-0.1.0.tgz
     version: 0.1.0
-generated: "2024-07-27T08:35:10.991534323Z"
+generated: "2024-07-30T06:29:12.908730638Z"
