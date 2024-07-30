@@ -113,10 +113,20 @@ livenessProbe:
   httpGet:
     path: /health
     port: http
+  initialDelaySeconds: 15
+  periodSeconds: 15
+  timeoutSeconds: 2
+  successThreshold: 1
+  failureThreshold: 3
 readinessProbe:
   httpGet:
     path: /health
     port: http
+  initialDelaySeconds: 15
+  periodSeconds: 15
+  timeoutSeconds: 2
+  successThreshold: 1
+  failureThreshold: 4
 
 autoscaling:
   enabled: false
