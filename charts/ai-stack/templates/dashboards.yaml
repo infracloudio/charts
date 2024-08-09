@@ -8,7 +8,7 @@ metadata:
   name: {{ printf "%s-%s" $.Chart.Name $filename | trunc 63 | trimSuffix "-" }}
   namespace: {{ $.Values.grafana.namespace }}
   labels:
-    {{- include "ai-stack.labels" . | nindent 4 }}
+    {{- include "ai-stack.labels" $ | nindent 4 }}
     grafana_dashboard: "1"
     created_by: "{{ $.Chart.Name }}"
 data:
