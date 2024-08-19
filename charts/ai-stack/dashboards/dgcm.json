@@ -93,11 +93,7 @@
       "id": 12,
       "options": {
         "legend": {
-          "calcs": [
-            "mean",
-            "lastNotNull",
-            "max"
-          ],
+          "calcs": ["mean", "lastNotNull", "max"],
           "displayMode": "table",
           "placement": "right",
           "showLegend": true
@@ -116,7 +112,7 @@
           "expr": "DCGM_FI_DEV_GPU_TEMP{Hostname=~\"${hostname}\", gpu=~\"${gpu}\"}",
           "instant": false,
           "interval": "",
-          "legendFormat": "GPU {{gpu}}",
+          "legendFormat": "{{Hostname}}/GPU {{gpu}}",
           "refId": "A"
         }
       ],
@@ -169,9 +165,7 @@
         "minVizWidth": 75,
         "orientation": "auto",
         "reduceOptions": {
-          "calcs": [
-            "mean"
-          ],
+          "calcs": ["mean"],
           "fields": "",
           "values": false
         },
@@ -264,11 +258,7 @@
       "id": 10,
       "options": {
         "legend": {
-          "calcs": [
-            "mean",
-            "lastNotNull",
-            "max"
-          ],
+          "calcs": ["mean", "lastNotNull", "max"],
           "displayMode": "table",
           "placement": "right",
           "showLegend": true
@@ -287,7 +277,7 @@
           },
           "expr": "DCGM_FI_DEV_POWER_USAGE{Hostname=~\"${hostname}\", gpu=~\"${gpu}\"}",
           "interval": "",
-          "legendFormat": "GPU {{gpu}}",
+          "legendFormat": "{{Hostname}}/GPU {{gpu}}",
           "refId": "A"
         }
       ],
@@ -340,9 +330,7 @@
         "minVizWidth": 75,
         "orientation": "horizontal",
         "reduceOptions": {
-          "calcs": [
-            "sum"
-          ],
+          "calcs": ["sum"],
           "fields": "",
           "values": false
         },
@@ -436,11 +424,7 @@
       "interval": "",
       "options": {
         "legend": {
-          "calcs": [
-            "mean",
-            "lastNotNull",
-            "max"
-          ],
+          "calcs": ["mean", "lastNotNull", "max"],
           "displayMode": "table",
           "placement": "right",
           "showLegend": true
@@ -460,7 +444,7 @@
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
-          "legendFormat": "GPU {{gpu}}",
+          "legendFormat": "{{Hostname}}/GPU {{gpu}}",
           "refId": "A"
         }
       ],
@@ -537,11 +521,7 @@
       "id": 6,
       "options": {
         "legend": {
-          "calcs": [
-            "mean",
-            "lastNotNull",
-            "max"
-          ],
+          "calcs": ["mean", "lastNotNull", "max"],
           "displayMode": "table",
           "placement": "right",
           "showLegend": true
@@ -559,7 +539,7 @@
           },
           "expr": "DCGM_FI_DEV_GPU_UTIL{Hostname=~\"${hostname}\", gpu=~\"${gpu}\"}",
           "interval": "",
-          "legendFormat": "GPU {{gpu}}",
+          "legendFormat": "{{Hostname}}/GPU {{gpu}}",
           "refId": "A"
         }
       ],
@@ -619,7 +599,7 @@
           },
           "expr": "DCGM_FI_PROF_PIPE_TENSOR_ACTIVE{Hostname=~\"${hostname}\", gpu=~\"${gpu}\"}",
           "interval": "",
-          "legendFormat": "GPU {{gpu}}",
+          "legendFormat": "{{Hostname}}/GPU {{gpu}}",
           "refId": "A"
         }
       ],
@@ -707,7 +687,7 @@
           },
           "expr": "DCGM_FI_DEV_FB_USED{Hostname=~\"${hostname}\", gpu=~\"${gpu}\"}",
           "interval": "",
-          "legendFormat": "GPU {{gpu}}",
+          "legendFormat": "{{Hostname}}/GPU {{gpu}}",
           "refId": "A"
         }
       ],
