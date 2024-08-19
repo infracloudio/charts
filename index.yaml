@@ -670,6 +670,24 @@ entries:
   chromadb:
   - apiVersion: v2
     appVersion: 0.5.4
+    created: "2024-08-19T13:53:32.039167162Z"
+    description: Helm chart for deploying ChromaDB
+    digest: 89a2226006587cb4c770f093ebbfeb3bc669adcdb0e26075caeadbf25db5060f
+    keywords:
+    - vectordb
+    - chromadb
+    - embeddings
+    - ai-apps
+    - rag
+    name: chromadb
+    sources:
+    - https://github.com/chroma-core/chroma
+    type: application
+    urls:
+    - https://github.com/infracloudio/charts/releases/download/chromadb-0.1.3/chromadb-0.1.3.tgz
+    version: 0.1.3
+  - apiVersion: v2
+    appVersion: 0.5.4
     created: "2024-07-26T05:26:35.968533543Z"
     description: A Helm chart for Kubernetes
     digest: a842cb8d43d1901816752d06cb7bf57e44285ab4317c3effe7b771b632d6c4d6
@@ -705,6 +723,25 @@ entries:
     - https://github.com/infracloudio/charts/releases/download/chromadb-0.1.0/chromadb-0.1.0.tgz
     version: 0.1.0
   text-embeddings-inference:
+  - apiVersion: v2
+    appVersion: 1.5.0
+    created: "2024-08-19T13:53:32.15610862Z"
+    description: A Helm chart for deploying Text Embeddings Inference(TEI) from Hugging
+      Face
+    digest: aaf954d9128f0639b73f09c6e3035149c339c7ced368988635940fcb8b1aa1bc
+    keywords:
+    - tei
+    - text-embeddings-inference
+    - embeddings
+    - huggingface
+    - rag
+    name: text-embeddings-inference
+    sources:
+    - https://github.com/huggingface/text-embeddings-inference
+    type: application
+    urls:
+    - https://github.com/infracloudio/charts/releases/download/text-embeddings-inference-0.1.7/text-embeddings-inference-0.1.7.tgz
+    version: 0.1.7
   - apiVersion: v2
     appVersion: 1.5.0
     created: "2024-07-30T06:29:12.799670244Z"
@@ -817,6 +854,25 @@ entries:
   text-generation-inference:
   - apiVersion: v2
     appVersion: 2.2.0
+    created: "2024-08-19T13:53:32.316858998Z"
+    description: A Helm chart for deploying Text Generation Inference(TGI) from Hugging
+      Face
+    digest: 966dbaef6377e871e750c2c3f07ac077cd3104d38f6015f388f1ae1d63957a1b
+    keywords:
+    - tgi
+    - text-generation-inference
+    - llm
+    - huggingface
+    - rag
+    name: text-generation-inference
+    sources:
+    - https://github.com/huggingface/text-generation-inference
+    type: application
+    urls:
+    - https://github.com/infracloudio/charts/releases/download/text-generation-inference-0.1.6/text-generation-inference-0.1.6.tgz
+    version: 0.1.6
+  - apiVersion: v2
+    appVersion: 2.2.0
     created: "2024-07-30T06:29:12.908642192Z"
     description: A Helm chart for deploying Text Generation Inference from Hugging
       Face
@@ -916,4 +972,4 @@ entries:
     urls:
     - https://github.com/infracloudio/charts/releases/download/tgi-0.1.0/tgi-0.1.0.tgz
     version: 0.1.0
-generated: "2024-08-09T07:31:44.406019757Z"
+generated: "2024-08-19T13:53:32.316990033Z"
