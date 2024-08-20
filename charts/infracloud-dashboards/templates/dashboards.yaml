@@ -1,6 +1,5 @@
-{{- if .Values.grafana.dashboards.enable }}
 {{- $files := .Files }}
-{{- range $path, $bytes := .Files.Glob "dashboards/*.json" }}
+{{- range $path, $bytes := .Files.Glob "grafana-dashboards/*.json" }}
 {{- $filename := trimSuffix (ext $path) (base $path) }}
 apiVersion: v1
 kind: ConfigMap
@@ -8,11 +7,10 @@ metadata:
   name: {{ printf "%s-%s" $.Chart.Name $filename | trunc 63 | trimSuffix "-" }}
   namespace: {{ $.Values.grafana.namespace }}
   labels:
-    {{- include "ai-stack.labels" $ | nindent 4 }}
+    {{- include "infracloud-dashboards.labels" $ | nindent 4 }}
     grafana_dashboard: "1"
     created_by: "{{ $.Chart.Name }}"
 data:
   {{ base $path }}: '{{ $files.Get $path }}'
 ---
-{{- end }}
 {{- end }}

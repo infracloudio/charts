@@ -185,12 +185,3 @@ reranker:
     - name: hf-cache
       persistentVolumeClaim:
         claimName: hf-cache
-
-## Enable Grafana Dashboard configmaps for auto dashboard provisioning
-## If you use kube-prometheus stack for monitoring, these will get imported into grafana
-grafana:
-  ## The namespace in which grafana pod is present
-  namespace: monitoring
-  dashboards:
-    ## Disabled by default. switch to true to deploy them
-    enable: false
