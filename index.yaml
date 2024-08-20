@@ -2,6 +2,47 @@ apiVersion: v1
 entries:
   ai-stack:
   - apiVersion: v2
+    created: "2024-08-20T16:04:16.861213537Z"
+    dependencies:
+    - alias: tgi
+      condition: tgi.enabled
+      name: text-generation-inference
+      repository: https://infracloudio.github.io/charts
+      version: 0.1.6
+    - alias: tei
+      condition: tei.enabled
+      name: text-embeddings-inference
+      repository: https://infracloudio.github.io/charts
+      version: 0.1.7
+    - alias: reranker
+      condition: reranker.enabled
+      name: text-embeddings-inference
+      repository: https://infracloudio.github.io/charts
+      version: 0.1.7
+    - alias: vectordb
+      condition: vectordb.enabled
+      name: chromadb
+      repository: https://infracloudio.github.io/charts
+      version: 0.1.3
+    description: 'AI Services chart from InfraCloud, includes services like LLM API,
+      Embeddings, Reranker API and VectorDB. '
+    digest: 3c1d910b9638eed7d737ade4073db43aa07a21549e5c6f261669e0105af7f26f
+    keywords:
+    - ai-stack
+    - ai-services
+    - ai-apps
+    - vectordb
+    - llm
+    - reranker
+    - embeddings
+    name: ai-stack
+    sources:
+    - https://github.com/infracloudio/charts
+    type: application
+    urls:
+    - https://github.com/infracloudio/charts/releases/download/ai-stack-0.3.7/ai-stack-0.3.7.tgz
+    version: 0.3.7
+  - apiVersion: v2
     created: "2024-08-19T14:17:20.49439985Z"
     dependencies:
     - alias: tgi
@@ -763,6 +804,17 @@ entries:
     urls:
     - https://github.com/infracloudio/charts/releases/download/chromadb-0.1.0/chromadb-0.1.0.tgz
     version: 0.1.0
+  infracloud-dashboards:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2024-08-20T16:04:16.981439622Z"
+    description: A Helm chart for deploying Grafana dashboards for InfraCloud
+    digest: 64989795a3dca87fba5d41a071fafe73f2e6e638331e6b19f68533eabc0bc1bb
+    name: infracloud-dashboards
+    type: application
+    urls:
+    - https://github.com/infracloudio/charts/releases/download/infracloud-dashboards-0.1.0/infracloud-dashboards-0.1.0.tgz
+    version: 0.1.0
   text-embeddings-inference:
   - apiVersion: v2
     appVersion: 1.5.0
@@ -1013,4 +1065,4 @@ entries:
     urls:
     - https://github.com/infracloudio/charts/releases/download/tgi-0.1.0/tgi-0.1.0.tgz
     version: 0.1.0
-generated: "2024-08-19T14:17:20.494507323Z"
+generated: "2024-08-20T16:04:16.981582278Z"
