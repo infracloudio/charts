@@ -807,6 +807,16 @@ entries:
   infracloud-dashboards:
   - apiVersion: v2
     appVersion: 1.16.0
+    created: "2024-08-21T06:10:16.308776578Z"
+    description: A Helm chart for deploying Grafana dashboards for InfraCloud
+    digest: 9b962d602464ee40754ab6fec9db32f50a90609669a9b130578b40476e30bc7b
+    name: infracloud-dashboards
+    type: application
+    urls:
+    - https://github.com/infracloudio/charts/releases/download/infracloud-dashboards-0.1.1/infracloud-dashboards-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
+    appVersion: 1.16.0
     created: "2024-08-20T16:04:16.981439622Z"
     description: A Helm chart for deploying Grafana dashboards for InfraCloud
     digest: 64989795a3dca87fba5d41a071fafe73f2e6e638331e6b19f68533eabc0bc1bb
@@ -1065,4 +1075,4 @@ entries:
     urls:
     - https://github.com/infracloudio/charts/releases/download/tgi-0.1.0/tgi-0.1.0.tgz
     version: 0.1.0
-generated: "2024-08-20T16:04:16.981582278Z"
+generated: "2024-08-21T06:10:16.308891241Z"
