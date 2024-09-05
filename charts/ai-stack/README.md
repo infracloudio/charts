@@ -2,12 +2,17 @@
 
 This chart deploys the AI stack on a Kubernetes cluster using the Helm package manager.
 
+![AI-Stack](https://github.com/user-attachments/assets/797bc164-983a-49e1-a4ce-1a959a62ddd5)
+
+
 ## Components
 
 The AI stack consists of the following components:
 
 - [Text Embeddings Inference(TEI)](../text-embeddings-inference/)
 - [Text Generation Inference(TGI)](../text-generation-inference/)
+- [Grafana Dashboards](../infracloud-dashboards)
+- [ChromaDB](../chromadb)
 
 ## Setup Helm Repository
 
