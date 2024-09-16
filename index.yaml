@@ -845,6 +845,23 @@ entries:
     urls:
     - https://github.com/infracloudio/charts/releases/download/chromadb-0.1.0/chromadb-0.1.0.tgz
     version: 0.1.0
+  guardrails-usvc:
+  - apiVersion: v2
+    appVersion: v1.0
+    created: "2024-09-16T09:24:05.299273355Z"
+    dependencies:
+    - alias: tgi
+      condition: autodependency.enabled
+      name: opea-tgi
+      repository: https://infracloudio.github.io/charts
+      version: 1.0.0
+    description: The Helm chart for deploying guardrails-usvc as microservice
+    digest: e5aa3af0a34b71e56c154e4637c82b15dcd730d4f40ff8bc5566dde7c708567e
+    name: guardrails-usvc
+    type: application
+    urls:
+    - https://github.com/infracloudio/charts/releases/download/guardrails-usvc-1.0.0/guardrails-usvc-1.0.0.tgz
+    version: 1.0.0
   infracloud-dashboards:
   - apiVersion: v2
     appVersion: 1.16.0
@@ -1147,4 +1164,4 @@ entries:
     urls:
     - https://github.com/infracloudio/charts/releases/download/tgi-0.1.0/tgi-0.1.0.tgz
     version: 0.1.0
-generated: "2024-09-16T09:17:35.206953679Z"
+generated: "2024-09-16T09:24:05.299384433Z"
