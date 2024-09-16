@@ -886,6 +886,17 @@ entries:
     urls:
     - https://github.com/infracloudio/charts/releases/download/infracloud-dashboards-0.1.0/infracloud-dashboards-0.1.0.tgz
     version: 0.1.0
+  opea-tgi:
+  - apiVersion: v2
+    appVersion: 2.1.0
+    created: "2024-09-16T09:17:35.206828014Z"
+    description: The Helm chart for HuggingFace Text Generation Inference Server
+    digest: 8ec816c439f86b54ced67eab654fae0773d1f703fc29fb909a4113eed8c2b3ed
+    name: opea-tgi
+    type: application
+    urls:
+    - https://github.com/infracloudio/charts/releases/download/opea-tgi-1.0.0/opea-tgi-1.0.0.tgz
+    version: 1.0.0
   text-embeddings-inference:
   - apiVersion: v2
     appVersion: 1.5.0
@@ -1136,4 +1147,4 @@ entries:
     urls:
     - https://github.com/infracloudio/charts/releases/download/tgi-0.1.0/tgi-0.1.0.tgz
     version: 0.1.0
-generated: "2024-09-13T14:36:22.939438533Z"
+generated: "2024-09-16T09:17:35.206953679Z"
