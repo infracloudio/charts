@@ -185,3 +185,49 @@ reranker:
     - name: hf-cache
       persistentVolumeClaim:
         claimName: hf-cache
+
+
+# Values for vllm: the vllm chart
+# Reference: https://artifacthub.io/packages/helm/infracloud-charts/vllm?modal=values
+vllm:
+  enabled: false
+
+  config:
+    model: "meta-llama/Meta-Llama-3.1-8B-Instruct"
+
+  env:
+  - name: HF_API_TOKEN
+    valueFrom:
+      secretKeyRef:
+        name: hf-api-token
+        key: HF_API_TOKEN
+  - name: HF_HUB_OFFLINE
+    value: "1"
+  - name: HF_HUB_CACHE
+    value: "/model"
+
+  resources:
+    limits:
+      nvidia.com/gpu: 1
+    requests:
+      nvidia.com/gpu: 1
+
+  strategy:
+    type: Recreate
+
+  service:
+    type: LoadBalancer
+    port: 8000
+
+  volumeMounts:
+    - name: hf-cache
+      mountPath: /model
+
+  volumes:
+    - name: hf-cache
+      persistentVolumeClaim:
+        claimName: hf-cache
+    - name: shm
+      emptyDir:
+        medium: Memory
+        sizeLimit: "1Gi"
