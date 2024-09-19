@@ -1,0 +1,172 @@
+# Default values for vllm.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+kind: Deployment
+
+strategy: {}
+  # rollingUpdate:
+  #   maxSurge: 1
+  #   maxUnavailable: 1
+  # type: RollingUpdate
+
+image:
+  repository: vllm/vllm-openai
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+# Customize the command to run
+command: []
+
+# Customize the arguments to pass to the command
+# Reference: https://docs.vllm.ai/en/latest/models/engine_args.html
+args: []
+
+config:
+  # The name of the model to use. Can be a MODEL_ID as listed on <https://hf.co/models> like `gpt2` or `OpenAssistant/oasst-sft-1-pythia-12b`.
+  # If you mention MODEL_ID, environment variable would take precedence. 
+  model: "bigscience/bloom-560m"
+  max_model_len: "4192"
+
+env:
+  # Reference: https://docs.vllm.ai/en/latest/models/engine_args.html
+  # Reference: https://docs.vllm.ai/en/latest/serving/env_vars.html
+  - name: HF_TOKEN
+    valueFrom:
+      secretKeyRef:
+        key: HF_API_TOKEN
+        name: hf-api-token
+  - name: HF_HUB_OFFLINE
+    value: "1"
+  - name: HF_HUB_CACHE
+    value: /model
+  - name: VLLM_NO_USAGE_STATS
+    value: "1"
+  - name: DO_NOT_TRACK
+    value: "1"
+
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Automatically mount a ServiceAccount's API credentials?
+  automount: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+podLabels: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  type: ClusterIP
+  port: 80
+
+serviceMonitor:
+  # Enable the creation of a ServiceMonitor resource
+  enabled: false
+  # Specify the namespace the ServiceMonitor resource should be created in
+  namespace: ""
+  # Specify the interval at which metrics should be scraped
+  interval: 30s
+  # Specify the scrape timeout
+  scrapeTimeout: 10s
+  # path to scrape for metrics
+  path: /metrics
+  # additional labels to add to the ServiceMonitor
+  additionalLabels: {}
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: chart-example.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  #   nvidia.com/gpu: 1
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+  #   nvidia.com/gpu: 1
+
+livenessProbe:
+  httpGet:
+    path: /health
+    port: http
+  initialDelaySeconds: 15
+  periodSeconds: 15
+  timeoutSeconds: 2
+  successThreshold: 1
+  failureThreshold: 3
+readinessProbe:
+  httpGet:
+    path: /health
+    port: http
+  initialDelaySeconds: 15
+  periodSeconds: 15
+  timeoutSeconds: 2
+  successThreshold: 1
+  failureThreshold: 4
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+# Additional volumes on the output Deployment definition.
+volumes: []
+# - name: foo
+#   secret:
+#     secretName: mysecret
+#     optional: false
+
+# Additional volumeMounts on the output Deployment definition.
+volumeMounts: []
+# - name: foo
+#   mountPath: "/etc/foo"
+#   readOnly: true
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
