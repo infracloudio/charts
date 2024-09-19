@@ -13,6 +13,7 @@ The AI stack consists of the following components:
 - [Text Generation Inference(TGI)](../text-generation-inference/)
 - [Grafana Dashboards](../infracloud-dashboards)
 - [ChromaDB](../chromadb)
+- [vLLM](../vllm)
 
 ## Setup Helm Repository
 
