@@ -47,7 +47,7 @@ spec:
             - {{ .Values.config.model }}
             {{- end }}
             {{- if .Values.config.max_model_len }}
-            - --max_model_len
+            - --max-model-len
             - {{ .Values.config.max_model_len | quote }}
             {{- end }}
             {{- if .Values.config.port }}
