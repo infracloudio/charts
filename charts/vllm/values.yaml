@@ -30,6 +30,8 @@ config:
   # If you mention MODEL_ID, environment variable would take precedence. 
   model: "bigscience/bloom-560m"
   max_model_len: "4192"
+  # Note: Changing this not supported yet.
+  port: 8000
 
 env:
   # Reference: https://docs.vllm.ai/en/latest/models/engine_args.html
