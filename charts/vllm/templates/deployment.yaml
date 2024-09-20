@@ -42,13 +42,17 @@ spec:
           command: {{ .Values.command }}
           {{- end }}
           args:
-            - --model
             {{- if .Values.config.model }}
+            - --model
             - {{ .Values.config.model }}
             {{- end }}
-            - --max-model-len
             {{- if .Values.config.max_model_len }}
+            - --max_model_len
             - {{ .Values.config.max_model_len | quote }}
+            {{- end }}
+            {{- if .Values.config.port }}
+            - --port
+            - {{ .Values.config.port | quote }}
             {{- end }}
             {{- if .Values.args }}
             {{- toYaml .Values.args | nindent 12 }}

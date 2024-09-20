@@ -27,11 +27,12 @@ args: []
 
 config:
   # The name of the model to use. Can be a MODEL_ID as listed on <https://hf.co/models> like `gpt2` or `OpenAssistant/oasst-sft-1-pythia-12b`.
-  # If you mention MODEL_ID, environment variable would take precedence. 
+  # Model ID for model to be used.
   model: "bigscience/bloom-560m"
+  # Model context length
   max_model_len: "4192"
-  # Note: Changing this not supported yet.
-  port: 8000
+  # Port to run the service on
+  port: "8000"
 
 env:
   # Reference: https://docs.vllm.ai/en/latest/models/engine_args.html
