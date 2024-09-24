@@ -1,0 +1,22 @@
+{{- if .Values.service.enabled }}
+{{- range $key, $notebook := .Values.notebooks }}
+{{- if $notebook.enabled }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "kf-notebooks.fullname" $ }}-{{ $notebook.name }}
+  labels:
+    {{- include "kf-notebooks.labels" $ | nindent 4 }}
+    app: {{ $notebook.name }}
+spec:
+  type: {{ $.Values.service.type }}
+  ports:
+    - port: {{ $.Values.service.port }}
+      targetPort: 8888
+      protocol: TCP
+  selector:
+    app: {{ $notebook.name }}
+{{- end }}
+{{- end }}
+{{- end }}

@@ -1,0 +1,31 @@
+{{- if .Values.notebooks.jupyter.enabled }}
+{{- include "kf-notebooks.checkNotebookCRD" . }}
+apiVersion: kubeflow.org/v1
+kind: Notebook
+metadata:
+  name: {{ include "kf-notebooks.fullname" . }}-{{ .Values.notebooks.jupyter.name }}
+  labels:
+    {{- include "kf-notebooks.labels" . | nindent 4 }}
+    app: {{ .Values.notebooks.jupyter.name }}
+spec:
+  template:
+    spec:
+      containers:
+      - name: {{ .Values.notebooks.jupyter.name }}
+        image: "{{ .Values.notebooks.jupyter.image.repository }}:{{ .Values.notebooks.jupyter.image.tag | default .Chart.AppVersion }}"
+        imagePullPolicy: {{ .Values.notebooks.jupyter.image.pullPolicy }}
+        resources:
+          {{- toYaml .Values.notebooks.jupyter.resources | nindent 10 }}
+        volumeMounts:
+        - mountPath: /dev/shm
+          name: dshm
+        - mountPath: /home/jovyan
+          name: workspace
+      volumes:
+      - emptyDir:
+          medium: Memory
+        name: dshm
+      - name: workspace
+        persistentVolumeClaim:
+          claimName: {{ include "kf-notebooks.fullname" . }}-{{ .Values.notebooks.jupyter.name }}-workspace
+{{- end }}

@@ -1,0 +1,52 @@
+# Global settings
+global:
+  storageClassName: ""
+
+# Common settings
+commonLabels: {}
+commonAnnotations: {}
+nameOverride: ""
+fullnameOverride: ""
+
+# Service settings
+service:
+  enabled: true
+  port: 80
+  type: ClusterIP
+
+# Notebook settings
+notebooks:
+  jupyter:
+    enabled: false
+    name: jupyter-pytorch-cuda
+    image:
+      repository: kubeflownotebookswg/jupyter-pytorch-cuda-full
+      tag: ""
+      pullPolicy: IfNotPresent
+    resources:
+      limits:
+        cpu: "0.6"
+        memory: 1.2Gi
+        nvidia.com/gpu: "1"
+      requests:
+        cpu: "0.5"
+        memory: 1Gi
+    storage:
+      size: 5Gi
+
+  vscode:
+    enabled: false
+    name: codeserver-python
+    image:
+      repository: kubeflownotebookswg/codeserver-python
+      tag: ""
+      pullPolicy: IfNotPresent
+    resources:
+      limits:
+        cpu: "0.6"
+        memory: 1.2Gi
+      requests:
+        cpu: "0.5"
+        memory: 1Gi
+    storage:
+      size: 5Gi

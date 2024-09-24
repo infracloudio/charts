@@ -1,0 +1,35 @@
+Thank you for installing {{ .Chart.Name }}.
+
+Your release is named {{ .Release.Name }}.
+
+To learn more about the release, try:
+
+  $ helm status {{ .Release.Name }}
+  $ helm get all {{ .Release.Name }}
+
+{{- if not (.Capabilities.APIVersions.Has "kubeflow.org/v1") }}
+WARNING: The Notebook custom resource is not available in your cluster.
+Please make sure Kubeflow is installed properly before using this chart.
+{{- else }}
+The following Notebooks have been created:
+
+{{- if .Values.notebooks.jupyter.enabled }}
+- Jupyter Notebook: {{ include "kf-notebooks.fullname" . }}-{{ .Values.notebooks.jupyter.name }}
+{{- end }}
+{{- if .Values.notebooks.vscode.enabled }}
+- VSCode Notebook: {{ include "kf-notebooks.fullname" . }}-{{ .Values.notebooks.vscode.name }}
+{{- end }}
+
+{{- if .Values.service.enabled }}
+To access the notebooks, use port-forwarding:
+
+{{- if .Values.notebooks.jupyter.enabled }}
+  $ kubectl port-forward svc/{{ include "kf-notebooks.fullname" . }}-{{ .Values.notebooks.jupyter.name }} {{ .Values.service.port }}:{{ .Values.service.port }}
+{{- end }}
+{{- if .Values.notebooks.vscode.enabled }}
+  $ kubectl port-forward svc/{{ include "kf-notebooks.fullname" . }}-{{ .Values.notebooks.vscode.name }} {{ .Values.service.port }}:{{ .Values.service.port }}
+{{- end }}
+
+Then open your browser and navigate to http://localhost:{{ .Values.service.port }}
+{{- end }}
+{{- end }}
