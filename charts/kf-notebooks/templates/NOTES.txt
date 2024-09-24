@@ -13,8 +13,8 @@ Please make sure Kubeflow is installed properly before using this chart.
 {{- else }}
 The following Notebooks have been created:
 
-{{- if .Values.notebooks.pytorch.enabled }}
-- PyTorch Notebook: {{ include "kf-notebooks.fullname" . }}-{{ .Values.notebooks.pytorch.name }}
+{{- if .Values.notebooks.jupyter.enabled }}
+- Jupyter Notebook: {{ include "kf-notebooks.fullname" . }}-{{ .Values.notebooks.jupyter.name }}
 {{- end }}
 {{- if .Values.notebooks.vscode.enabled }}
 - VSCode Notebook: {{ include "kf-notebooks.fullname" . }}-{{ .Values.notebooks.vscode.name }}
@@ -23,8 +23,8 @@ The following Notebooks have been created:
 {{- if .Values.service.enabled }}
 To access the notebooks, use port-forwarding:
 
-{{- if .Values.notebooks.pytorch.enabled }}
-  $ kubectl port-forward svc/{{ include "kf-notebooks.fullname" . }}-{{ .Values.notebooks.pytorch.name }} {{ .Values.service.port }}:{{ .Values.service.port }}
+{{- if .Values.notebooks.jupyter.enabled }}
+  $ kubectl port-forward svc/{{ include "kf-notebooks.fullname" . }}-{{ .Values.notebooks.jupyter.name }} {{ .Values.service.port }}:{{ .Values.service.port }}
 {{- end }}
 {{- if .Values.notebooks.vscode.enabled }}
   $ kubectl port-forward svc/{{ include "kf-notebooks.fullname" . }}-{{ .Values.notebooks.vscode.name }} {{ .Values.service.port }}:{{ .Values.service.port }}

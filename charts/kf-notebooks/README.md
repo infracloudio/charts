@@ -41,13 +41,13 @@ The following table lists the configurable parameters of the KF-Notebooks chart 
 | `service.enabled` | Enable service creation | `true` |
 | `service.port` | Service port | `80` |
 | `service.type` | Service type | `ClusterIP` |
-| `notebooks.pytorch.enabled` | Enable PyTorch notebook | `false` |
-| `notebooks.pytorch.name` | PyTorch notebook name | `jupyter-pytorch-cuda` |
-| `notebooks.pytorch.image.repository` | PyTorch notebook image repository | `kubeflownotebookswg/jupyter-pytorch-cuda-full` |
-| `notebooks.pytorch.image.tag` | PyTorch notebook image tag | `v1.9.0` |
-| `notebooks.pytorch.image.pullPolicy` | PyTorch notebook image pull policy | `IfNotPresent` |
-| `notebooks.pytorch.resources` | PyTorch notebook resources | See `values.yaml` for defaults |
-| `notebooks.pytorch.storage.size` | PyTorch notebook storage size | `5Gi` |
+| `notebooks.jupyter.enabled` | Enable Jupyter notebook | `false` |
+| `notebooks.jupyter.name` | Jupyter notebook name | `jupyter-pytorch-cuda` |
+| `notebooks.jupyter.image.repository` | Jupyter notebook image repository | `kubeflownotebookswg/jupyter-pytorch-cuda-full` |
+| `notebooks.jupyter.image.tag` | Jupyter notebook image tag | `v1.9.0` |
+| `notebooks.jupyter.image.pullPolicy` | Jupyter notebook image pull policy | `IfNotPresent` |
+| `notebooks.jupyter.resources` | Jupyter notebook resources | See `values.yaml` for defaults |
+| `notebooks.jupyter.storage.size` | Jupyter notebook storage size | `5Gi` |
 | `notebooks.vscode.enabled` | Enable VSCode notebook | `false` |
 | `notebooks.vscode.name` | VSCode notebook name | `codeserver-python` |
 | `notebooks.vscode.image.repository` | VSCode notebook image repository | `kubeflownotebookswg/codeserver-python` |

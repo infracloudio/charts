@@ -16,7 +16,7 @@ service:
 
 # Notebook settings
 notebooks:
-  pytorch:
+  jupyter:
     enabled: false
     name: jupyter-pytorch-cuda
     image:
