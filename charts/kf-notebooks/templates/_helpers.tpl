@@ -24,6 +24,26 @@ If release name contains chart name it will be used as a full name.
 {{- end }}
 
 {{/*
+Create a default name for notebook pvc.
+*/}}
+
+{{- define "kf-notebooks.notebooks.jupyter.pvc.name.base" -}}
+{{- printf "%s-%s" (include "kf-notebooks.fullname" .) .Values.notebooks.jupyter.name | trunc 53 | trimSuffix "-" -}}
+{{- end }}
+
+{{- define "kf-notebooks.notebooks.vscode.pvc.name.base" -}}
+{{- printf "%s-%s" (include "kf-notebooks.fullname" .) .Values.notebooks.vscode.name | trunc 53 | trimSuffix "-" -}}
+{{- end }}
+
+{{- define "kf-notebooks.notebooks.jupyter.pvc.name" -}}
+{{- printf "%s-%s" (include "kf-notebooks.notebooks.jupyter.pvc.name.base" .) "workspace" -}}
+{{- end }}
+
+{{- define "kf-notebooks.notebooks.vscode.pvc.name" -}}
+{{- printf "%s-%s" (include "kf-notebooks.notebooks.vscode.pvc.name.base" .) "workspace" -}}
+{{- end }}
+
+{{/*
 Create chart name and version as used by the chart label.
 */}}
 {{- define "kf-notebooks.chart" -}}

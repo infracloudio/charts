@@ -4,7 +4,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: {{ include "kf-notebooks.fullname" $ }}-{{ $notebook.name }}-workspace
+  name: {{ printf "%s-%s" (include "kf-notebooks.fullname" $) $notebook.name | trunc 53 | trimSuffix "-" }}-workspace
   labels:
     {{- include "kf-notebooks.labels" $ | nindent 4 }}
     app: {{ $notebook.name }}

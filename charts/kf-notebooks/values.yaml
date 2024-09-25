@@ -18,7 +18,7 @@ service:
 notebooks:
   jupyter:
     enabled: false
-    name: jupyter-pytorch-cuda
+    name: jupyter
     image:
       repository: kubeflownotebookswg/jupyter-pytorch-cuda-full
       tag: ""
@@ -36,7 +36,7 @@ notebooks:
 
   vscode:
     enabled: false
-    name: codeserver-python
+    name: vscode
     image:
       repository: kubeflownotebookswg/codeserver-python
       tag: ""
