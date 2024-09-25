@@ -3,7 +3,7 @@
 apiVersion: kubeflow.org/v1
 kind: Notebook
 metadata:
-  name: {{ include "kf-notebooks.fullname" . }}-{{ .Values.notebooks.jupyter.name }}
+  name: {{ printf "%s-%s" (include "kf-notebooks.fullname" .) .Values.notebooks.jupyter.name | trunc 41 | trimSuffix "-" }}
   labels:
     {{- include "kf-notebooks.labels" . | nindent 4 }}
     app: {{ .Values.notebooks.jupyter.name }}
@@ -27,5 +27,5 @@ spec:
         name: dshm
       - name: workspace
         persistentVolumeClaim:
-          claimName: {{ include "kf-notebooks.fullname" . }}-{{ .Values.notebooks.jupyter.name }}-workspace
+          claimName: {{ include "kf-notebooks.notebooks.jupyter.pvc.name" . }}
 {{- end }}
