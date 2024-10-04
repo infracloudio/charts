@@ -997,6 +997,24 @@ entries:
     version: 0.1.0
   kf-notebooks:
   - apiVersion: v2
+    appVersion: v1.9.1
+    created: "2024-10-04T03:26:31.021880231Z"
+    description: Helm chart for deploying KubeFlow Notebooks
+    digest: 55366248927729c7c6f7b436f6242563b54c96116dc1703e82490c4ba7bf7d47
+    keywords:
+    - kubeflow
+    - notebooks
+    - ai-apps
+    - ai-notebooks
+    - ai-ml
+    name: kf-notebooks
+    sources:
+    - https://github.com/kubeflow/kubeflow
+    type: application
+    urls:
+    - https://github.com/infracloudio/charts/releases/download/kf-notebooks-0.1.2/kf-notebooks-0.1.2.tgz
+    version: 0.1.2
+  - apiVersion: v2
     appVersion: v1.9.0
     created: "2024-09-25T09:07:20.737486533Z"
     description: Helm chart for deploying KubeFlow Notebooks
@@ -1364,4 +1382,4 @@ entries:
     urls:
     - https://github.com/infracloudio/charts/releases/download/vllm-0.1.0/vllm-0.1.0.tgz
     version: 0.1.0
-generated: "2024-09-26T09:52:04.012058076Z"
+generated: "2024-10-04T03:26:31.022014401Z"
