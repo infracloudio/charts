@@ -1192,6 +1192,25 @@ entries:
     version: 0.1.0
   text-generation-inference:
   - apiVersion: v2
+    appVersion: 2.3.1
+    created: "2024-10-04T06:07:37.055881235Z"
+    description: A Helm chart for deploying Text Generation Inference(TGI) from Hugging
+      Face
+    digest: 9fc6d55932db4dae5093297cc865321ffdd0bb701a1cdee40b83f696b4674e7b
+    keywords:
+    - tgi
+    - text-generation-inference
+    - llm
+    - huggingface
+    - rag
+    name: text-generation-inference
+    sources:
+    - https://github.com/huggingface/text-generation-inference
+    type: application
+    urls:
+    - https://github.com/infracloudio/charts/releases/download/text-generation-inference-0.1.8/text-generation-inference-0.1.8.tgz
+    version: 0.1.8
+  - apiVersion: v2
     appVersion: 2.3.0
     created: "2024-09-23T04:13:57.229913133Z"
     description: A Helm chart for deploying Text Generation Inference(TGI) from Hugging
@@ -1382,4 +1401,4 @@ entries:
     urls:
     - https://github.com/infracloudio/charts/releases/download/vllm-0.1.0/vllm-0.1.0.tgz
     version: 0.1.0
-generated: "2024-10-04T03:26:31.022014401Z"
+generated: "2024-10-04T06:07:37.056024733Z"
