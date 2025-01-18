@@ -2,6 +2,52 @@ apiVersion: v1
 entries:
   ai-stack:
   - apiVersion: v2
+    created: "2025-01-18T07:18:15.684564039Z"
+    dependencies:
+    - alias: tgi
+      condition: tgi.enabled
+      name: text-generation-inference
+      repository: https://infracloudio.github.io/charts
+      version: 0.1.9
+    - alias: tei
+      condition: tei.enabled
+      name: text-embeddings-inference
+      repository: https://infracloudio.github.io/charts
+      version: 0.1.8
+    - alias: reranker
+      condition: reranker.enabled
+      name: text-embeddings-inference
+      repository: https://infracloudio.github.io/charts
+      version: 0.1.8
+    - alias: vectordb
+      condition: vectordb.enabled
+      name: chromadb
+      repository: https://infracloudio.github.io/charts
+      version: 0.1.4
+    - alias: vllm
+      condition: vllm.enabled
+      name: vllm
+      repository: https://infracloudio.github.io/charts
+      version: 0.2.2
+    description: 'AI Services chart from InfraCloud, includes services like LLM API,
+      Embeddings, Reranker API and VectorDB. '
+    digest: ac8d9cc247c5b8b6f19a4f43ef5a786cc6e099b56941db74cba90f7522388009
+    keywords:
+    - ai-stack
+    - ai-services
+    - ai-apps
+    - vectordb
+    - llm
+    - reranker
+    - embeddings
+    name: ai-stack
+    sources:
+    - https://github.com/infracloudio/charts
+    type: application
+    urls:
+    - https://github.com/infracloudio/charts/releases/download/ai-stack-0.4.3/ai-stack-0.4.3.tgz
+    version: 0.4.3
+  - apiVersion: v2
     created: "2025-01-18T07:15:51.368486619Z"
     dependencies:
     - alias: tgi
@@ -1538,4 +1584,4 @@ entries:
     urls:
     - https://github.com/infracloudio/charts/releases/download/vllm-0.1.0/vllm-0.1.0.tgz
     version: 0.1.0
-generated: "2025-01-18T07:15:51.368694628Z"
+generated: "2025-01-18T07:18:15.684785854Z"
