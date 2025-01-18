@@ -884,6 +884,24 @@ entries:
     version: v0.6.0
   chromadb:
   - apiVersion: v2
+    appVersion: 0.6.3
+    created: "2025-01-18T07:07:54.854135105Z"
+    description: Helm chart for deploying ChromaDB
+    digest: fccbc653fc82e6ef903d2d4089e47f9d0057f9cf58d96a3709b5deb15f7acb86
+    keywords:
+    - vectordb
+    - chromadb
+    - embeddings
+    - ai-apps
+    - rag
+    name: chromadb
+    sources:
+    - https://github.com/chroma-core/chroma
+    type: application
+    urls:
+    - https://github.com/infracloudio/charts/releases/download/chromadb-0.1.4/chromadb-0.1.4.tgz
+    version: 0.1.4
+  - apiVersion: v2
     appVersion: 0.5.4
     created: "2024-08-19T13:53:32.039167162Z"
     description: Helm chart for deploying ChromaDB
@@ -997,6 +1015,24 @@ entries:
     version: 0.1.0
   kf-notebooks:
   - apiVersion: v2
+    appVersion: v1.9.2
+    created: "2025-01-18T07:07:55.024342586Z"
+    description: Helm chart for deploying KubeFlow Notebooks
+    digest: e615a3277af295b3c91e2fa1a771d9b7dac7c12e49fddbd5a4a9623be336ec65
+    keywords:
+    - kubeflow
+    - notebooks
+    - ai-apps
+    - ai-notebooks
+    - ai-ml
+    name: kf-notebooks
+    sources:
+    - https://github.com/kubeflow/kubeflow
+    type: application
+    urls:
+    - https://github.com/infracloudio/charts/releases/download/kf-notebooks-0.1.3/kf-notebooks-0.1.3.tgz
+    version: 0.1.3
+  - apiVersion: v2
     appVersion: v1.9.1
     created: "2024-10-04T03:26:31.021880231Z"
     description: Helm chart for deploying KubeFlow Notebooks
@@ -1062,6 +1098,25 @@ entries:
     - https://github.com/infracloudio/charts/releases/download/opea-tgi-1.0.0/opea-tgi-1.0.0.tgz
     version: 1.0.0
   text-embeddings-inference:
+  - apiVersion: v2
+    appVersion: 1.6.0
+    created: "2025-01-18T07:07:55.15747028Z"
+    description: A Helm chart for deploying Text Embeddings Inference(TEI) from Hugging
+      Face
+    digest: a36dfcb212749bedabd63d50124c9cb1d6f9dc4e0c64c2c8e1387e2c7e4d5dd3
+    keywords:
+    - tei
+    - text-embeddings-inference
+    - embeddings
+    - huggingface
+    - rag
+    name: text-embeddings-inference
+    sources:
+    - https://github.com/huggingface/text-embeddings-inference
+    type: application
+    urls:
+    - https://github.com/infracloudio/charts/releases/download/text-embeddings-inference-0.1.8/text-embeddings-inference-0.1.8.tgz
+    version: 0.1.8
   - apiVersion: v2
     appVersion: 1.5.0
     created: "2024-08-19T13:53:32.15610862Z"
@@ -1191,6 +1246,25 @@ entries:
     - https://github.com/infracloudio/charts/releases/download/text-embeddings-inference-0.1.0/text-embeddings-inference-0.1.0.tgz
     version: 0.1.0
   text-generation-inference:
+  - apiVersion: v2
+    appVersion: 3.0.1
+    created: "2025-01-18T07:07:55.302481726Z"
+    description: A Helm chart for deploying Text Generation Inference(TGI) from Hugging
+      Face
+    digest: 42ede59600b36e7d34fef745d52018631f30a0f48df4be952919ceddf1707821
+    keywords:
+    - tgi
+    - text-generation-inference
+    - llm
+    - huggingface
+    - rag
+    name: text-generation-inference
+    sources:
+    - https://github.com/huggingface/text-generation-inference
+    type: application
+    urls:
+    - https://github.com/infracloudio/charts/releases/download/text-generation-inference-0.1.9/text-generation-inference-0.1.9.tgz
+    version: 0.1.9
   - apiVersion: v2
     appVersion: 2.3.1
     created: "2024-10-04T06:07:37.055881235Z"
@@ -1401,4 +1475,4 @@ entries:
     urls:
     - https://github.com/infracloudio/charts/releases/download/vllm-0.1.0/vllm-0.1.0.tgz
     version: 0.1.0
-generated: "2024-10-04T06:07:37.056024733Z"
+generated: "2025-01-18T07:07:55.302634931Z"
