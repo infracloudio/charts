@@ -1425,6 +1425,23 @@ entries:
     version: 0.1.0
   vllm:
   - apiVersion: v2
+    appVersion: v0.6.6
+    created: "2025-01-18T07:11:50.202302821Z"
+    description: A Helm chart for deploying models with vLLM
+    digest: e95b07d947a63a783d67469fc3e901a43af67989f8b126eccc9971e78b55ac1e
+    keywords:
+    - vllm
+    - llm
+    - huggingface
+    - rag
+    name: vllm
+    sources:
+    - https://github.com/vllm-project/vllm
+    type: application
+    urls:
+    - https://github.com/infracloudio/charts/releases/download/vllm-0.2.2/vllm-0.2.2.tgz
+    version: 0.2.2
+  - apiVersion: v2
     appVersion: v0.6.2
     created: "2024-09-26T09:52:04.011956556Z"
     description: A Helm chart for deploying models with vLLM
@@ -1475,4 +1492,4 @@ entries:
     urls:
     - https://github.com/infracloudio/charts/releases/download/vllm-0.1.0/vllm-0.1.0.tgz
     version: 0.1.0
-generated: "2025-01-18T07:07:55.302634931Z"
+generated: "2025-01-18T07:11:50.20245173Z"
