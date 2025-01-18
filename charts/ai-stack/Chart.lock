@@ -1,18 +1,18 @@
 dependencies:
 - name: text-generation-inference
   repository: https://infracloudio.github.io/charts
-  version: 0.1.7
+  version: 0.1.9
 - name: text-embeddings-inference
   repository: https://infracloudio.github.io/charts
-  version: 0.1.7
+  version: 0.1.8
 - name: text-embeddings-inference
   repository: https://infracloudio.github.io/charts
-  version: 0.1.7
+  version: 0.1.8
 - name: chromadb
   repository: https://infracloudio.github.io/charts
-  version: 0.1.3
+  version: 0.1.4
 - name: vllm
   repository: https://infracloudio.github.io/charts
-  version: 0.1.0
-digest: sha256:00da382cb53a009b8b4fe24a7d5707b3fde9d7d0c81e30dbcc44545f3eb2f957
-generated: "2024-09-23T09:45:59.283836+05:30"
+  version: 0.2.2
+digest: sha256:b24d3c8e5ec557605f080400435b9dafbc4a5a6eeb8c17faa195284234327000
+generated: "2025-01-18T12:44:36.982253+05:30"
