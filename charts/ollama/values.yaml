@@ -31,7 +31,10 @@ ollama:
   host: "0.0.0.0:11434"
   # How long a loaded model stays in memory after the last request.
   keepAlive: "1h"
-  # Default context window; small models on CPU do not need more.
+  # Context window applied to every pulled model (the model is re-created
+  # in place with this num_ctx, because a model's own value, 40960 for
+  # Hugging Face GGUF repos, overrides OLLAMA_CONTEXT_LENGTH and its KV
+  # cache would exceed the memory limit). Empty keeps each model's own value.
   contextLength: 4096
 
 models:

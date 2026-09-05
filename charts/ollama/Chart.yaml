@@ -2,7 +2,7 @@ apiVersion: v2
 name: ollama
 description: A Helm chart for serving small models on CPU or GPU with Ollama
 type: application
-version: 0.1.0
+version: 0.1.1
 appVersion: "0.33.3"
 keywords:
   - ollama

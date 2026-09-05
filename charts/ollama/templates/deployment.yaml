@@ -62,6 +62,13 @@ spec:
                     until ollama list >/dev/null 2>&1; do sleep 1; done
                     {{- range . }}
                     ollama pull {{ . | quote }}
+                    {{- if $.Values.ollama.contextLength }}
+                    # A model's own num_ctx (Hugging Face GGUF repos ship 40960) overrides
+                    # OLLAMA_CONTEXT_LENGTH and its KV cache would not fit the memory limit,
+                    # so re-create the model in place with the configured context length.
+                    printf 'FROM %s\nPARAMETER num_ctx %s\n' {{ . | quote }} {{ $.Values.ollama.contextLength | quote }} > /tmp/Modelfile
+                    ollama create {{ . | quote }} -f /tmp/Modelfile
+                    {{- end }}
                     {{- end }}
           {{- end }}
           livenessProbe:
