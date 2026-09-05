@@ -1272,6 +1272,27 @@ entries:
     urls:
     - https://github.com/infracloudio/charts/releases/download/kf-notebooks-0.1.0/kf-notebooks-0.1.0.tgz
     version: 0.1.0
+  ollama:
+  - apiVersion: v2
+    appVersion: 0.33.3
+    created: "2026-09-05T17:22:07.133806244Z"
+    description: A Helm chart for serving small models on CPU or GPU with Ollama
+    digest: f4c6282124733265dda9ae0b17529d2cbc8afa9e095e06b835380b0ca9f173cc
+    home: https://ollama.com
+    keywords:
+    - ollama
+    - llm
+    - cpu
+    maintainers:
+    - name: infracloudio
+      url: https://github.com/infracloudio
+    name: ollama
+    sources:
+    - https://github.com/ollama/ollama
+    type: application
+    urls:
+    - https://github.com/infracloudio/charts/releases/download/ollama-0.1.1/ollama-0.1.1.tgz
+    version: 0.1.1
   opea-tgi:
   - apiVersion: v2
     appVersion: 2.4.1
@@ -1762,4 +1783,4 @@ entries:
     urls:
     - https://github.com/infracloudio/charts/releases/download/vllm-0.1.0/vllm-0.1.0.tgz
     version: 0.1.0
-generated: "2026-09-05T06:51:30.330717891Z"
+generated: "2026-09-05T17:22:07.133935566Z"
