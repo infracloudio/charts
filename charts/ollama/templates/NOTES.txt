@@ -1,0 +1,10 @@
+Ollama {{ .Chart.AppVersion }} is starting as release {{ .Release.Name }}.
+{{- with .Values.models.pull }}
+The pod becomes Ready after these tags are pulled:
+{{- range . }}
+  - {{ . }}
+{{- end }}
+{{- end }}
+
+Inside the cluster:
+  http://{{ include "ollama.fullname" . }}.{{ .Release.Namespace }}.svc:{{ .Values.service.port }}/v1/chat/completions

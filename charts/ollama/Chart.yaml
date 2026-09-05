@@ -1,0 +1,16 @@
+apiVersion: v2
+name: ollama
+description: A Helm chart for serving small models on CPU or GPU with Ollama
+type: application
+version: 0.1.1
+appVersion: "0.33.3"
+keywords:
+  - ollama
+  - llm
+  - cpu
+home: https://ollama.com
+maintainers:
+  - name: infracloudio
+    url: https://github.com/infracloudio
+sources:
+  - https://github.com/ollama/ollama
