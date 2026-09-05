@@ -3,7 +3,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: {{ .Values.pvc.persistentVolumeClaim.name }}
+  name: {{ include "chromadb.pvcName" . }}
   labels:
     {{- include "chromadb.labels" . | nindent 4 }}
     {{- with .Values.pvc.persistentVolumeClaim.labels }}

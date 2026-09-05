@@ -73,21 +73,17 @@ serviceMonitor:
   # additional labels to add to the ServiceMonitor
   additionalLabels: {}
 
-ingress:
+# Gateway API route (https://gateway-api.sigs.k8s.io/), rendered only when
+# enabled. It replaces the former Ingress resource and expects a Gateway
+# such as Envoy Gateway to exist in the cluster.
+httpRoute:
   enabled: false
-  className: ""
   annotations: {}
-    # kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
-  hosts:
-    - host: chart-example.local
-      paths:
-        - path: /
-          pathType: ImplementationSpecific
-  tls: []
-  #  - secretName: chart-example-tls
-  #    hosts:
-  #      - chart-example.local
+  parentRefs:
+    - name: aiops
+      namespace: envoy-gateway-system
+  hostnames: []
+  path: /
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
@@ -101,14 +97,26 @@ resources: {}
   #   cpu: 100m
   #   memory: 128Mi
 
-livenessProbe: {}
-  # httpGet:
-  #   path: /
-  #   port: http
-readinessProbe: {}
-  # httpGet:
-  #   path: /
-  #   port: http
+# Chroma's health/heartbeat endpoint moved to /api/v2/heartbeat in the
+# Chroma 1.x server (the older /api/v1/heartbeat path is gone).
+livenessProbe:
+  httpGet:
+    path: /api/v2/heartbeat
+    port: http
+  initialDelaySeconds: 15
+  periodSeconds: 15
+  timeoutSeconds: 2
+  successThreshold: 1
+  failureThreshold: 3
+readinessProbe:
+  httpGet:
+    path: /api/v2/heartbeat
+    port: http
+  initialDelaySeconds: 15
+  periodSeconds: 15
+  timeoutSeconds: 2
+  successThreshold: 1
+  failureThreshold: 4
 
 autoscaling:
   enabled: false
@@ -117,14 +125,16 @@ autoscaling:
   targetCPUUtilizationPercentage: 80
   # targetMemoryUtilizationPercentage: 80
 
-# Additional volumes on the output Deployment definition.
+# Additional volumes on the output Deployment definition, alongside the
+# "data" volume backed by the PVC below (see pvc.enabled / pvc.mountPath).
 volumes: []
 # - name: foo
 #   secret:
 #     secretName: mysecret
 #     optional: false
 
-# Additional volumeMounts on the output Deployment definition.
+# Additional volumeMounts on the output Deployment definition, alongside
+# the "data" volumeMount backed by the PVC below (see pvc.enabled / pvc.mountPath).
 volumeMounts: []
 # - name: foo
 #   mountPath: "/etc/foo"
@@ -140,14 +150,30 @@ affinity: {}
 pvc:
   enabled: true
 
+  # Name of an existing PVC to use instead of creating one. Leave empty to
+  # let this chart create and manage the PVC below.
   existingClaim: ""
+
+  # Where the "data" volume is mounted in the container. Chroma's 1.x
+  # server image persists to /data by default (no PERSIST_DIRECTORY /
+  # IS_PERSISTENT env vars needed).
+  mountPath: /data
 
   persistentVolumeClaim:
     ## Ref: http://kubernetes.io/docs/user-guide/persistent-volum
+    ##
+    ## ReadWriteOnce is the safe default: it binds on single-node
+    ## provisioners such as kind's local-path-provisioner, which do not
+    ## support ReadWriteMany. Override to ReadWriteMany only if your
+    ## storage class actually supports it and you need multiple replicas.
     accessModes:
-      - ReadWriteMany
+      - ReadWriteOnce
 
-    name: "db-data"
+    ## Left empty by default so the PVC name is derived from the release
+    ## (via the chromadb.fullname template helper). This avoids name
+    ## collisions when installing a second release of this chart in the
+    ## same namespace. Set explicitly to pin a stable name instead.
+    name: ""
 
     labels: {}
 

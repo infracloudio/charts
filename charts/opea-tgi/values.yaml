@@ -26,7 +26,9 @@ image:
   repository: ghcr.io/huggingface/text-generation-inference
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "2.2.0"
+  # -intel-cpu is the tag OPEA's Xeon/CPU compose files pin for this
+  # component; use the plain tag (see nv-values.yaml) for CUDA GPUs.
+  tag: "2.4.1-intel-cpu"
 
 # empty for CPU
 accelDevice: ""

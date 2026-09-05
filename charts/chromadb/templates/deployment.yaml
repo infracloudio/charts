@@ -58,13 +58,26 @@ spec:
           resources:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          {{- with .Values.volumeMounts }}
+          {{- if or .Values.pvc.enabled .Values.volumeMounts }}
           volumeMounts:
+            {{- if .Values.pvc.enabled }}
+            - name: data
+              mountPath: {{ .Values.pvc.mountPath }}
+            {{- end }}
+            {{- with .Values.volumeMounts }}
             {{- toYaml . | nindent 12 }}
+            {{- end }}
           {{- end }}
-      {{- with .Values.volumes }}
+      {{- if or .Values.pvc.enabled .Values.volumes }}
       volumes:
+        {{- if .Values.pvc.enabled }}
+        - name: data
+          persistentVolumeClaim:
+            claimName: {{ .Values.pvc.existingClaim | default (include "chromadb.pvcName" .) }}
+        {{- end }}
+        {{- with .Values.volumes }}
         {{- toYaml . | nindent 8 }}
+        {{- end }}
       {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:

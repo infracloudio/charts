@@ -5,6 +5,18 @@ apiVersion: v2
 name: opea-tgi
 description: The Helm chart for HuggingFace Text Generation Inference Server
 type: application
-version: 1.0.0
-# The HF TGI version
-appVersion: "2.1.0"
+version: 1.1.0
+# The HF TGI version pinned by OPEA's Xeon/CPU compose files
+# (ghcr.io/huggingface/text-generation-inference:2.4.1-intel-cpu); see
+# values.yaml/nv-values.yaml/gaudi-values.yaml for the per-accelerator tags.
+appVersion: "2.4.1"
+
+home: https://github.com/opea-project/GenAIComps
+
+maintainers:
+  - name: infracloudio
+    url: https://github.com/infracloudio
+
+sources:
+  - https://github.com/huggingface/text-generation-inference
+  - https://github.com/opea-project/GenAIComps

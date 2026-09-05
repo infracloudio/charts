@@ -60,3 +60,12 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
+
+{{/*
+Create the name of the PVC to use for the data volume.
+Falls back to the release-scoped fullname so two releases in the same
+namespace never collide on a hardcoded PVC name.
+*/}}
+{{- define "chromadb.pvcName" -}}
+{{- .Values.pvc.persistentVolumeClaim.name | default (include "chromadb.fullname" .) }}
+{{- end }}
