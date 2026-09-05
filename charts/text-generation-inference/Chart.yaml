@@ -15,13 +15,15 @@ type: application
 # This is the chart version. This version number should be incremented each time you make changes
 # to the chart and its templates, including the app version.
 # Versions are expected to follow Semantic Versioning (https://semver.org/)
-version: 0.1.9
+version: 0.3.0
 
 # This is the version number of the application being deployed. This version number should be
 # incremented each time you make changes to the application. Versions are not expected to
 # follow Semantic Versioning. They should reflect the version the application is using.
 # It is recommended to use it with quotes.
-appVersion: "3.0.1"
+# NOTE: huggingface/text-generation-inference was archived (read-only) on
+# 2026-03-21; v3.3.7 is its final release.
+appVersion: "3.3.7"
 
 keywords:
   - tgi
@@ -29,6 +31,12 @@ keywords:
   - llm
   - huggingface
   - rag
+
+home: https://huggingface.co/docs/text-generation-inference
+
+maintainers:
+  - name: infracloudio
+    url: https://github.com/infracloudio
 
 sources:
   - https://github.com/huggingface/text-generation-inference

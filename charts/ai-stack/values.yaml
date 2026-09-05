@@ -102,6 +102,9 @@ vectordb:
   pvc:
     enabled: true
 
+    # chromadb's own PVC template mounts this claim at pvc.mountPath (/data
+    # by default, matching the Chroma 1.x server image) automatically, so
+    # no explicit volumes/volumeMounts override is needed here any more.
     persistentVolumeClaim:
       name: "db-data"
 
@@ -111,15 +114,6 @@ vectordb:
       storageClassName: "controller-nfs"
 
       size: "2Gi"
-
-  volumeMounts:
-    - name: db-data
-      mountPath: /chroma/chroma/
-
-  volumes:
-    - name: db-data
-      persistentVolumeClaim:
-        claimName: db-data
 
 huggingface:
 

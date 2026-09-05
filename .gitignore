@@ -1,0 +1,3 @@
+
+# dependency archives are rebuilt by helm dependency build
+charts/*/charts/*.tgz

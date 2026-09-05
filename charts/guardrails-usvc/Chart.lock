@@ -1,0 +1,6 @@
+dependencies:
+- name: opea-tgi
+  repository: file://../opea-tgi
+  version: 1.1.0
+digest: sha256:333c02094c4a66e4fe42a3a654474ca759147d6449bc291eb0a2a066b446c956
+generated: "2026-09-04T16:23:17.915723+05:30"
