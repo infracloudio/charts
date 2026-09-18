@@ -13,6 +13,6 @@ dependencies:
   version: 0.3.0
 - name: vllm
   repository: file://../vllm
-  version: 0.4.0
-digest: sha256:be2ade4537f8035ccb268e2d6bce26e98810f48df95ad37cc61db9595f5fc7e2
-generated: "2026-09-04T22:40:24.388114+05:30"
+  version: 0.4.1
+digest: sha256:206578b395f6f4f09fe427274b33bd64179b05d972fce5dffbe0fe20c2760bd5
+generated: "2026-09-18T20:50:17.58151+05:30"

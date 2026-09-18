@@ -125,6 +125,20 @@ resources: {}
   #   memory: 128Mi
   #   nvidia.com/gpu: 1
 
+# The first start downloads the model into the cache volume, loads it and
+# compiles: minutes on a fast link, much longer on a slow one. The startup
+# probe gives that time (periodSeconds x failureThreshold, two hours here);
+# liveness and readiness only begin once it succeeded, so their delays can
+# stay short. A kill during the download restarts it from zero, because the
+# Hugging Face hub library does not resume, so be generous. Set it to null
+# to render no startup probe.
+startupProbe:
+  httpGet:
+    path: /health
+    port: http
+  periodSeconds: 30
+  timeoutSeconds: 2
+  failureThreshold: 240
 livenessProbe:
   httpGet:
     path: /health
