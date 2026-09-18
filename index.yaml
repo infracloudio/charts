@@ -2,6 +2,56 @@ apiVersion: v1
 entries:
   ai-stack:
   - apiVersion: v2
+    created: "2026-09-18T15:32:35.177493353Z"
+    dependencies:
+    - alias: tgi
+      condition: tgi.enabled
+      name: text-generation-inference
+      repository: file://../text-generation-inference
+      version: 0.3.0
+    - alias: tei
+      condition: tei.enabled
+      name: text-embeddings-inference
+      repository: file://../text-embeddings-inference
+      version: 0.3.0
+    - alias: reranker
+      condition: reranker.enabled
+      name: text-embeddings-inference
+      repository: file://../text-embeddings-inference
+      version: 0.3.0
+    - alias: vectordb
+      condition: vectordb.enabled
+      name: chromadb
+      repository: file://../chromadb
+      version: 0.3.0
+    - alias: vllm
+      condition: vllm.enabled
+      name: vllm
+      repository: file://../vllm
+      version: 0.4.1
+    description: 'AI Services chart from InfraCloud, includes services like LLM API,
+      Embeddings, Reranker API and VectorDB. '
+    digest: 0ce79ffeb0efc76650f8a67157ce14bcf0c8eace0eba19d5316ba3abf87063c5
+    home: https://github.com/infracloudio/charts
+    keywords:
+    - ai-stack
+    - ai-services
+    - ai-apps
+    - vectordb
+    - llm
+    - reranker
+    - embeddings
+    maintainers:
+    - name: infracloudio
+      url: https://github.com/infracloudio
+    name: ai-stack
+    sources:
+    - https://github.com/infracloudio/charts
+    type: application
+    urls:
+    - https://github.com/infracloudio/charts/releases/download/ai-stack-0.6.1/ai-stack-0.6.1.tgz
+    version: 0.6.1
+  - apiVersion: v2
     created: "2026-09-05T06:51:29.461688952Z"
     dependencies:
     - alias: tgi
@@ -1706,6 +1756,27 @@ entries:
   vllm:
   - apiVersion: v2
     appVersion: v0.28.0
+    created: "2026-09-18T15:32:35.51065374Z"
+    description: A Helm chart for deploying models with vLLM
+    digest: 4a4e5d2842989d4c36d34d7bfb9d04847c480ef3eed48a894c7ab37b0cc661a3
+    home: https://docs.vllm.ai
+    keywords:
+    - vllm
+    - llm
+    - huggingface
+    - rag
+    maintainers:
+    - name: infracloudio
+      url: https://github.com/infracloudio
+    name: vllm
+    sources:
+    - https://github.com/vllm-project/vllm
+    type: application
+    urls:
+    - https://github.com/infracloudio/charts/releases/download/vllm-0.4.1/vllm-0.4.1.tgz
+    version: 0.4.1
+  - apiVersion: v2
+    appVersion: v0.28.0
     created: "2026-09-05T06:51:30.330392683Z"
     description: A Helm chart for deploying models with vLLM
     digest: 3e727091446e4569ba5c37cf0cdb2665c40fbf1ece3700a7314059930ff2d58c
@@ -1793,4 +1864,4 @@ entries:
     urls:
     - https://github.com/infracloudio/charts/releases/download/vllm-0.1.0/vllm-0.1.0.tgz
     version: 0.1.0
-generated: "2026-09-06T06:44:20.811050077Z"
+generated: "2026-09-18T15:32:35.511012796Z"
