@@ -1,0 +1,16 @@
+apiVersion: v2
+name: mcp-server
+description: One MCP server (streamable HTTP) behind a policy that admits only the platform's proxy
+type: application
+version: 0.1.0
+appVersion: "1.0"
+keywords:
+  - mcp
+  - model-context-protocol
+  - tools
+home: https://modelcontextprotocol.io
+maintainers:
+  - name: infracloudio
+    url: https://github.com/infracloudio
+sources:
+  - https://github.com/infracloudio/aiops-platform

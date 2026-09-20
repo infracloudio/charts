@@ -1,0 +1,72 @@
+# One MCP server that speaks streamable HTTP, as the AIOps platform
+# deploys it. The platform's backend renders these values from a catalog
+# entry; nothing here is specific to one server.
+
+nameOverride: ""
+# The backend sets this to the release name, so the Service has a name
+# the backend can compute (it is the URL the proxy is registered with).
+fullnameOverride: ""
+
+image:
+  repository: ""
+  # A tag ("1.2.3") or a digest ("@sha256:..."). Never "latest": what was
+  # reviewed is what runs.
+  tag: ""
+  pullPolicy: IfNotPresent
+imagePullSecrets: []
+
+# Empty keeps the image's own entrypoint.
+command: []
+args: []
+
+service:
+  # ClusterIP is the only type: nothing outside the cluster, and nothing
+  # inside it but the proxy (networkPolicy), calls this server.
+  port: 8000
+
+# Plain settings: [{name, value}].
+env: []
+# The name of a Secret whose keys become environment variables (the
+# settings that are secrets). The backend writes it before the install.
+envFromSecret: ""
+# A hash of every setting, secret ones included: a change of a secret
+# alone changes no other field of the pod, and must still restart it.
+settingsChecksum: ""
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 64Mi
+  limits:
+    memory: 512Mi
+
+networkPolicy:
+  enabled: true
+  # Who may call the server: the pods with these labels in this
+  # namespace, and nobody else. Both are required; the chart fails
+  # without them rather than install a server every pod can call.
+  ingressFrom:
+    namespace: ""
+    podLabels: {}
+  # What the server may call, DNS apart:
+  #   none    - nothing
+  #   public  - port 443 outside the private ranges
+  #   cluster - public, plus the private ranges (a Grafana or a database
+  #             of the cluster or the site). Never the link-local range:
+  #             the cloud metadata address stays closed.
+  egress: public
+  publicPorts: [443]
+  privateCIDRs:
+    - 10.0.0.0/8
+    - 172.16.0.0/12
+    - 192.168.0.0/16
+    - 100.64.0.0/10
+  linkLocalCIDRs:
+    - 169.254.0.0/16
+    - 127.0.0.0/8
+
+podAnnotations: {}
+podLabels: {}
+nodeSelector: {}
+tolerations: []
+affinity: {}
