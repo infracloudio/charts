@@ -1,0 +1,11 @@
+# The values every install must give; `helm lint` and the chart tests use them.
+fullnameOverride: mcpi-1234abcd
+image:
+  repository: mcp/grafana
+  tag: "0.0.0-lint"
+args: ["-t", "streamable-http", "-address", "0.0.0.0:8000"]
+networkPolicy:
+  ingressFrom:
+    namespace: litellm
+    podLabels:
+      app.kubernetes.io/name: litellm

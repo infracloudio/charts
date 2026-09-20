@@ -1,0 +1,2 @@
+The MCP server listens at http://{{ include "mcp-server.fullname" . }}.{{ .Release.Namespace }}.svc:{{ .Values.service.port }}
+Only the pods that the network policy names (the platform's proxy) can call it.

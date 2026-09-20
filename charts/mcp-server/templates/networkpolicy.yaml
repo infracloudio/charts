@@ -1,0 +1,66 @@
+{{- if .Values.networkPolicy.enabled }}
+{{- $from := .Values.networkPolicy.ingressFrom }}
+{{- $namespace := required "networkPolicy.ingressFrom.namespace is required: the namespace of the proxy" $from.namespace }}
+{{- if not $from.podLabels }}{{ fail "networkPolicy.ingressFrom.podLabels is required: the labels of the proxy's pods" }}{{ end }}
+{{- $egress := .Values.networkPolicy.egress }}
+{{- if not (has $egress (list "none" "public" "cluster")) }}{{ fail "networkPolicy.egress must be none, public or cluster" }}{{ end }}
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: {{ include "mcp-server.fullname" . }}
+  labels:
+    {{- include "mcp-server.labels" . | nindent 4 }}
+spec:
+  podSelector:
+    matchLabels:
+      {{- include "mcp-server.selectorLabels" . | nindent 6 }}
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    # ONE element with both selectors: the proxy's pods in the proxy's
+    # namespace. Two elements would be an OR, and would admit every pod
+    # of that namespace (the backend and the database, on a platform
+    # install).
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: {{ $namespace | quote }}
+          podSelector:
+            matchLabels:
+              {{- toYaml $from.podLabels | nindent 14 }}
+      ports:
+        - protocol: TCP
+          port: {{ .Values.service.port }}
+  egress:
+    - to:
+        - namespaceSelector: {}
+      ports:
+        - protocol: UDP
+          port: 53
+        - protocol: TCP
+          port: 53
+    {{- if ne $egress "none" }}
+    - to:
+        - ipBlock:
+            cidr: 0.0.0.0/0
+            except:
+              {{- range concat .Values.networkPolicy.privateCIDRs .Values.networkPolicy.linkLocalCIDRs }}
+              - {{ . | quote }}
+              {{- end }}
+      ports:
+        {{- range .Values.networkPolicy.publicPorts }}
+        - protocol: TCP
+          port: {{ . }}
+        {{- end }}
+    {{- end }}
+    {{- if eq $egress "cluster" }}
+    # The cluster and the site, on any port: a Grafana, a database. The
+    # link-local range is in no rule, so the metadata address is closed.
+    - to:
+        {{- range .Values.networkPolicy.privateCIDRs }}
+        - ipBlock:
+            cidr: {{ . | quote }}
+        {{- end }}
+    {{- end }}
+{{- end }}
