@@ -1332,6 +1332,28 @@ entries:
     urls:
     - https://github.com/infracloudio/charts/releases/download/kf-notebooks-0.1.0/kf-notebooks-0.1.0.tgz
     version: 0.1.0
+  mcp-server:
+  - apiVersion: v2
+    appVersion: "1.0"
+    created: "2026-09-20T12:37:30.53665702Z"
+    description: One MCP server (streamable HTTP) behind a policy that admits only
+      the platform's proxy
+    digest: 17f975ea2b379616917e3a6722f7c2b77ba1703a0ad40a27116df63fdddeb9de
+    home: https://modelcontextprotocol.io
+    keywords:
+    - mcp
+    - model-context-protocol
+    - tools
+    maintainers:
+    - name: infracloudio
+      url: https://github.com/infracloudio
+    name: mcp-server
+    sources:
+    - https://github.com/infracloudio/aiops-platform
+    type: application
+    urls:
+    - https://github.com/infracloudio/charts/releases/download/mcp-server-0.1.0/mcp-server-0.1.0.tgz
+    version: 0.1.0
   ollama:
   - apiVersion: v2
     appVersion: 0.33.3
@@ -1864,4 +1886,4 @@ entries:
     urls:
     - https://github.com/infracloudio/charts/releases/download/vllm-0.1.0/vllm-0.1.0.tgz
     version: 0.1.0
-generated: "2026-09-18T15:32:35.511012796Z"
+generated: "2026-09-20T12:37:30.536801719Z"
