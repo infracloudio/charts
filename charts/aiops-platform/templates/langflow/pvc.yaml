@@ -1,0 +1,17 @@
+{{- if .Values.langflow.enabled }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "aiops-platform.langflowFullname" . }}
+  labels:
+    {{- include "aiops-platform.labelsForComponent" (dict "root" . "component" "langflow") | nindent 4 }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  {{- with .Values.langflow.persistence.storageClass }}
+  storageClassName: {{ . | quote }}
+  {{- end }}
+  resources:
+    requests:
+      storage: {{ .Values.langflow.persistence.size }}
+{{- end }}

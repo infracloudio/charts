@@ -1,0 +1,155 @@
+{{- if .Values.langflow.enabled }}
+{{- if not .Values.gateway.enabled }}
+{{- fail "langflow.enabled needs gateway.enabled: Langflow is reached through the gateway only (its route, policy and identity live there)" }}
+{{- end }}
+# Langflow on platform identity (ADR 0002): the gateway forwards the
+# access token, Langflow verifies it against the realm and keeps one
+# user per platform user; auto-login is off and the break-glass
+# superuser's password lives in the platform Secret. Mirrors
+# infra/local/langflow/langflow.yaml.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "aiops-platform.langflowFullname" . }}
+  labels:
+    {{- include "aiops-platform.labelsForComponent" (dict "root" . "component" "langflow") | nindent 4 }}
+spec:
+  replicas: 1
+  # One replica on a ReadWriteOnce volume: a second pod cannot start
+  # usefully, and the overlap costs memory on a small node.
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      {{- include "aiops-platform.componentLabels" (dict "root" . "component" "langflow") | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "aiops-platform.componentLabels" (dict "root" . "component" "langflow") | nindent 8 }}
+    spec:
+      {{- with .Values.langflow.podSecurityContext }}
+      securityContext:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.global.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.langflow.hostAliases }}
+      hostAliases:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- if .Values.global.caSecret }}
+      initContainers:
+        # SSL_CERT_FILE replaces the roots rather than adding to them, and
+        # Langflow still reaches public APIs: bundle the image's roots
+        # (certifi's; the image has none under /etc/ssl) with the CA.
+        - name: ca-bundle
+          image: {{ include "aiops-platform.langflowImage" . | quote }}
+          imagePullPolicy: {{ .Values.langflow.image.pullPolicy }}
+          command:
+            - sh
+            - -c
+            - cat "$(python -c 'import certifi; print(certifi.where())')" /etc/aiops/ca/ca.crt > /etc/aiops/bundle/ca.crt
+          volumeMounts:
+            - name: ca
+              mountPath: /etc/aiops/ca
+              readOnly: true
+            - name: ca-bundle
+              mountPath: /etc/aiops/bundle
+      {{- end }}
+      containers:
+        - name: langflow
+          image: {{ include "aiops-platform.langflowImage" . | quote }}
+          imagePullPolicy: {{ .Values.langflow.image.pullPolicy }}
+          env:
+            {{- if .Values.global.caSecret }}
+            - name: SSL_CERT_FILE
+              value: /etc/aiops/bundle/ca.crt
+            - name: REQUESTS_CA_BUNDLE
+              value: /etc/aiops/bundle/ca.crt
+            {{- end }}
+            - name: LANGFLOW_CONFIG_DIR
+              value: /app/langflow
+            - name: LANGFLOW_SAVE_DB_IN_CONFIG_DIR
+              value: "true"
+            - name: LANGFLOW_AUTO_LOGIN
+              value: "false"
+            - name: LANGFLOW_EXTERNAL_AUTH_ENABLED
+              value: "true"
+            - name: LANGFLOW_EXTERNAL_AUTH_PROVIDER
+              value: aiops
+            - name: LANGFLOW_EXTERNAL_AUTH_JWKS_URL
+              value: {{ include "aiops-platform.jwksUrl" . | quote }}
+            - name: LANGFLOW_EXTERNAL_AUTH_ISSUER
+              value: {{ include "aiops-platform.issuer" . | quote }}
+            - name: LANGFLOW_EXTERNAL_AUTH_AUDIENCE
+              value: aiops-api
+            - name: LANGFLOW_ENABLE_SIGNUP
+              value: "false"
+            - name: LANGFLOW_NEW_USER_IS_ACTIVE
+              value: "false"
+            - name: LANGFLOW_SUPERUSER
+              value: aiops-admin
+            - name: LANGFLOW_SUPERUSER_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secrets.name }}
+                  key: LANGFLOW_SUPERUSER_PASSWORD
+            - name: LANGFLOW_ACCESS_SAME_SITE
+              value: none
+            - name: LANGFLOW_ACCESS_SECURE
+              value: "true"
+            - name: LANGFLOW_REFRESH_SAME_SITE
+              value: none
+            - name: LANGFLOW_REFRESH_SECURE
+              value: "true"
+            - name: LANGFLOW_SSRF_ALLOWED_HOSTS
+              # LiteLLM for the models, the backend for the tools
+              # (/v1alpha1/mcp); nothing else inside the cluster.
+              value: {{ .Values.langflow.ssrfAllowedHosts | default (printf "%s%s" (.Values.litellm.enabled | ternary (printf "%s," .Values.litellm.fullnameOverride) "") (include "aiops-platform.backendFullname" .)) | quote }}
+            - name: LANGFLOW_HOST
+              value: "0.0.0.0"
+            - name: LANGFLOW_PORT
+              value: "7860"
+          ports:
+            - name: http
+              containerPort: 7860
+          readinessProbe:
+            httpGet:
+              path: /health_check
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 6
+          livenessProbe:
+            httpGet:
+              path: /health_check
+              port: http
+            initialDelaySeconds: 60
+            periodSeconds: 20
+            timeoutSeconds: 5
+            failureThreshold: 6
+          resources:
+            {{- toYaml .Values.langflow.resources | nindent 12 }}
+          volumeMounts:
+            - name: data
+              mountPath: /app/langflow
+            {{- if .Values.global.caSecret }}
+            - name: ca-bundle
+              mountPath: /etc/aiops/bundle
+              readOnly: true
+            {{- end }}
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: {{ include "aiops-platform.langflowFullname" . }}
+        {{- if .Values.global.caSecret }}
+        - name: ca
+          secret:
+            secretName: {{ .Values.global.caSecret }}
+        - name: ca-bundle
+          emptyDir: {}
+        {{- end }}
+{{- end }}

@@ -1,0 +1,68 @@
+{{- if .Values.backend.rbac.create }}
+# The ClusterRole the backend needs, including the gateway objects
+# backend/utils/gateway.py creates (HTTPRoute, SecurityPolicy,
+# BackendTrafficPolicy, ReferenceGrant).
+# pods/log and events, plus the apps-group get/list/watch on deployments and
+# statefulsets, back the instance Logs and Events tabs (#15, the operations
+# stream): backend/utils/pod_inspection.py reads them with
+# list_namespaced_event, read_namespaced_pod_log, list_namespaced_deployment
+# and list_namespaced_stateful_set. Cluster-wide because AIOPS_NAMESPACE may
+# point instances at another namespace.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ include "aiops-platform.backendFullname" . }}
+  labels:
+    {{- include "aiops-platform.labels" . | nindent 4 }}
+rules:
+  - apiGroups: [""]
+    resources: ["pods", "nodes"]
+    verbs: ["get", "list", "watch", "update", "patch", "delete"]
+  - apiGroups: [""]
+    resources: ["pods/log", "events"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: [""]
+    resources: ["services", "namespaces", "secrets", "configmaps", "serviceaccounts", "persistentvolumes", "persistentvolumeclaims"]
+    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+  - apiGroups: ["apps"]
+    resources: ["deployments", "daemonsets", "statefulsets"]
+    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+  # charts/mcp-server: the policy that admits only the proxy to a
+  # deployed MCP server. Helm installs with this account.
+  - apiGroups: ["networking.k8s.io"]
+    resources: ["networkpolicies"]
+    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+  - apiGroups: ["batch"]
+    resources: ["jobs"]
+    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+  - apiGroups: ["batch"]
+    resources: ["jobs/status"]
+    verbs: ["get", "list", "watch", "update", "patch"]
+  - apiGroups: ["monitoring.coreos.com"]
+    resources: ["servicemonitors"]
+    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+  - apiGroups: ["kubeflow.org"]
+    resources: ["notebooks"]
+    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+  - apiGroups: ["gateway.networking.k8s.io"]
+    resources: ["httproutes", "referencegrants"]
+    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+  - apiGroups: ["gateway.envoyproxy.io"]
+    resources: ["securitypolicies", "backendtrafficpolicies"]
+    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ include "aiops-platform.backendFullname" . }}
+  labels:
+    {{- include "aiops-platform.labels" . | nindent 4 }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ include "aiops-platform.backendServiceAccountName" . }}
+    namespace: {{ .Release.Namespace }}
+roleRef:
+  kind: ClusterRole
+  name: {{ include "aiops-platform.backendFullname" . }}
+  apiGroup: rbac.authorization.k8s.io
+{{- end }}

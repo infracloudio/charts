@@ -1,0 +1,67 @@
+{{- if .Values.gateway.enabled }}
+# The shared OIDC callback host (infra/local/gateway/sso.yaml): Keycloak
+# does not glob-match a "*" in a redirect URI host and Envoy Gateway names
+# its OIDC cookies after the policy, so one policy targets this route plus
+# every instance browser route, and https://sso.<parent domain>/oauth2/callback
+# is the one redirect URI of the aiops-gateway client. The nginx is never
+# reached by a real user: Envoy answers the callback path itself.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sso
+  labels:
+    {{- include "aiops-platform.labelsForComponent" (dict "root" . "component" "sso") | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "aiops-platform.componentLabels" (dict "root" . "component" "sso") | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "aiops-platform.componentLabels" (dict "root" . "component" "sso") | nindent 8 }}
+    spec:
+      containers:
+        - name: nginx
+          image: {{ .Values.gateway.sso.image | quote }}
+          ports:
+            - name: http
+              containerPort: 80
+          resources:
+            requests:
+              cpu: 10m
+              memory: 16Mi
+            limits:
+              memory: 64Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sso
+  labels:
+    {{- include "aiops-platform.labelsForComponent" (dict "root" . "component" "sso") | nindent 4 }}
+spec:
+  selector:
+    {{- include "aiops-platform.componentLabels" (dict "root" . "component" "sso") | nindent 4 }}
+  ports:
+    - name: http
+      port: 80
+      targetPort: http
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: sso
+  labels:
+    {{- include "aiops-platform.labels" . | nindent 4 }}
+spec:
+  parentRefs:
+    - name: {{ include "aiops-platform.gatewayName" . }}
+      namespace: {{ include "aiops-platform.gatewayNamespace" . }}
+  hostnames:
+    - {{ include "aiops-platform.host" (dict "root" . "label" .Values.gateway.hosts.sso) | quote }}
+  rules:
+    - backendRefs:
+        - name: sso
+          port: 80
+{{- end }}

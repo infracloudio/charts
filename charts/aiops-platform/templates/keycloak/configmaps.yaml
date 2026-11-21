@@ -1,0 +1,31 @@
+{{- if .Values.keycloak.enabled }}
+{{- $realm := .Files.Get "files/realm-aiops.json" | replace "__PARENT_DOMAIN__" .Values.global.parentDomain | fromJson }}
+{{- if .Values.keycloak.devUsers }}
+{{- $people := .Files.Get "files/realm-dev-users.json" | fromJsonArray }}
+{{- $_ := set $realm "users" (concat ($realm.users | default list) $people) }}
+{{- end }}
+# Mounted by the Keycloak subchart at /opt/bitnami/keycloak/data/import
+# (keycloak.extraVolumes in values.yaml) and imported on the first start;
+# Keycloak skips the import once the realm exists in its database, so a
+# later change here needs the Admin Console or a fresh database.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: aiops-keycloak-realm
+  labels:
+    {{- include "aiops-platform.labelsForComponent" (dict "root" . "component" "keycloak") | nindent 4 }}
+data:
+  realm-aiops.json: |-
+    {{- $realm | toPrettyJson | nindent 4 }}
+---
+# keycloak.extraEnvVarsCM: the public hostname Keycloak builds every URL
+# with; must be the host clients actually reach it at.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: aiops-keycloak-env
+  labels:
+    {{- include "aiops-platform.labelsForComponent" (dict "root" . "component" "keycloak") | nindent 4 }}
+data:
+  KC_HOSTNAME: "https://{{ include "aiops-platform.host" (dict "root" . "label" .Values.gateway.hosts.auth) }}"
+{{- end }}

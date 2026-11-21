@@ -1,0 +1,145 @@
+{{- $labels := dict "root" . "component" "backend" }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "aiops-platform.backendFullname" . }}
+  labels:
+    {{- include "aiops-platform.labelsForComponent" $labels | nindent 4 }}
+spec:
+  replicas: {{ .Values.backend.replicas }}
+  selector:
+    matchLabels:
+      {{- include "aiops-platform.componentLabels" $labels | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "aiops-platform.componentLabels" $labels | nindent 8 }}
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/backend/configmap.yaml") . | sha256sum }}
+    spec:
+      serviceAccountName: {{ include "aiops-platform.backendServiceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.backend.podSecurityContext | nindent 8 }}
+      {{- with .Values.global.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.backend.hostAliases }}
+      hostAliases:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- if .Values.global.caSecret }}
+      initContainers:
+        # helm (Go) replaces the system roots with SSL_CERT_FILE, so the
+        # API gets a bundle of both, the way make backend builds one.
+        - name: ca-bundle
+          image: {{ include "aiops-platform.backendImage" . | quote }}
+          imagePullPolicy: {{ .Values.backend.image.pullPolicy }}
+          command: ["sh", "-c", "cat /etc/ssl/certs/ca-certificates.crt /etc/aiops/ca/ca.crt > /etc/aiops/bundle/ca.crt"]
+          volumeMounts:
+            - name: ca
+              mountPath: /etc/aiops/ca
+              readOnly: true
+            - name: ca-bundle
+              mountPath: /etc/aiops/bundle
+      {{- end }}
+      containers:
+        - name: backend
+          image: {{ include "aiops-platform.backendImage" . | quote }}
+          imagePullPolicy: {{ .Values.backend.image.pullPolicy }}
+          # readOnlyRootFilesystem stays false: helm (the chart cache under
+          # $HOME) and uv (compiled bytecode under /app/.venv) both write
+          # under /app and /tmp at runtime.
+          securityContext:
+            {{- toYaml .Values.backend.securityContext | nindent 12 }}
+          ports:
+            - name: http
+              containerPort: 8000
+              protocol: TCP
+          envFrom:
+            - configMapRef:
+                name: {{ include "aiops-platform.backendFullname" . }}-config
+          env:
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "aiops-platform.databaseSecret" . }}
+                  key: DATABASE_PASSWORD
+            - name: LITELLM_MASTER_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "aiops-platform.litellmSecret" . }}
+                  key: LITELLM_MASTER_KEY
+                  optional: true
+            # The code reads HF_API_TOKEN; the Secret key is HF_TOKEN (spec section 7).
+            - name: HF_API_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secrets.name }}
+                  key: HF_TOKEN
+                  optional: true
+            - name: NGC_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secrets.name }}
+                  key: NGC_API_KEY
+                  optional: true
+            {{- if .Values.global.caSecret }}
+            - name: SSL_CERT_FILE
+              value: /etc/aiops/bundle/ca.crt
+            - name: REQUESTS_CA_BUNDLE
+              value: /etc/aiops/bundle/ca.crt
+            {{- end }}
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 60
+            periodSeconds: 30
+          resources:
+            {{- toYaml .Values.backend.resources | nindent 12 }}
+          {{- if or .Values.global.caSecret .Values.backend.hfCache.mount }}
+          volumeMounts:
+            {{- if .Values.global.caSecret }}
+            - name: ca-bundle
+              mountPath: /etc/aiops/bundle
+              readOnly: true
+            {{- end }}
+            {{- if .Values.backend.hfCache.mount }}
+            # Read-only: the API reads file sizes on the model cache to say
+            # how far a model download is (backend/utils/model_cache.py).
+            - name: model-cache
+              mountPath: /model-cache
+              readOnly: true
+            {{- end }}
+          {{- end }}
+      {{- if or .Values.global.caSecret .Values.backend.hfCache.mount }}
+      volumes:
+        {{- if .Values.global.caSecret }}
+        - name: ca
+          secret:
+            secretName: {{ .Values.global.caSecret }}
+        - name: ca-bundle
+          emptyDir: {}
+        {{- end }}
+        {{- if .Values.backend.hfCache.mount }}
+        - name: model-cache
+          persistentVolumeClaim:
+            claimName: hf-cache
+            readOnly: true
+        {{- end }}
+      {{- end }}
+      {{- with .Values.backend.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.backend.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

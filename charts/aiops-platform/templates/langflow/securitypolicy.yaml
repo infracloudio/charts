@@ -1,0 +1,55 @@
+{{- if and .Values.langflow.enabled .Values.gateway.enabled }}
+{{- $issuer := include "aiops-platform.issuer" . }}
+# Langflow's own policy (its host is also its callback host): OIDC
+# against the realm, the access token forwarded for Langflow to verify,
+# a bearer passed through for API callers, and ext-authz to the backend
+# for the member rule; the provider and ext-authz blocks are the helpers
+# templates/gateway/securitypolicy.yaml uses (the local counterpart is
+# infra/local/langflow/langflow.yaml). A policy the controller rejects is
+# not applied and leaves this route open: templates/gateway/policy-check.yaml
+# fails the release unless the controller accepts it.
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: SecurityPolicy
+metadata:
+  name: {{ include "aiops-platform.langflowFullname" . }}-oidc
+  labels:
+    {{- include "aiops-platform.labelsForComponent" (dict "root" . "component" "langflow") | nindent 4 }}
+spec:
+  targetRefs:
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      name: {{ include "aiops-platform.langflowFullname" . }}
+  oidc:
+    {{- include "aiops-platform.oidcProvider" . | nindent 4 }}
+    redirectURL: "https://{{ include "aiops-platform.langflowHost" . }}/oauth2/callback"
+    logoutPath: /oauth2/logout
+    cookieDomain: {{ .Values.global.parentDomain | quote }}
+    # Third-party inside the UI's Develop iframe.
+    cookieConfig:
+      sameSite: None
+    forwardAccessToken: true
+    passThroughAuthHeader: true
+    refreshToken: true
+    scopes:
+      - openid
+      - profile
+      - email
+  # Required with passThroughAuthHeader: Envoy verifies a bearer that
+  # skips the login. optional, because a browser's first request carries
+  # no bearer yet and must reach the OIDC redirect.
+  jwt:
+    optional: true
+    providers:
+      - name: keycloak
+        issuer: {{ $issuer | quote }}
+        audiences:
+          - aiops-api
+        remoteJWKS:
+          uri: {{ include "aiops-platform.envoyJwksUrl" . | quote }}
+          {{- if .Values.keycloak.enabled }}
+          backendRefs:
+            - name: {{ .Values.keycloak.fullnameOverride }}
+              port: {{ .Values.keycloak.service.ports.http }}
+          {{- end }}
+  {{- include "aiops-platform.extAuth" . | nindent 2 }}
+{{- end }}

@@ -757,9 +757,9 @@
     "list": [
       {
         "current": {
-          "selected": true,
-          "text": ["infracloud01", "infracloud02", "infracloud03"],
-          "value": ["infracloud01", "infracloud02", "infracloud03"]
+          "selected": false,
+          "text": "",
+          "value": ""
         },
         "datasource": {
           "type": "prometheus",

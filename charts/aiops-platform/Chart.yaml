@@ -1,0 +1,35 @@
+apiVersion: v2
+name: aiops-platform
+description: |
+  The AIOps control plane (backend API and UI) with its gateway objects and,
+  optionally, Postgres, Keycloak and LiteLLM. Every dependency can be turned
+  off and replaced by an external system (docs/install.md).
+type: application
+version: 0.3.13
+appVersion: "main"
+keywords:
+  - aiops
+  - control-plane
+  - keycloak
+  - litellm
+home: https://github.com/improving/aiops-platform
+maintainers:
+  - name: improving
+    url: https://github.com/improving
+sources:
+  - https://github.com/improving/aiops-platform
+
+dependencies:
+  - name: postgresql
+    version: 16.7.27
+    repository: oci://registry-1.docker.io/bitnamicharts
+    condition: postgresql.enabled
+  - name: keycloak
+    version: 25.2.0
+    repository: oci://registry-1.docker.io/bitnamicharts
+    condition: keycloak.enabled
+  - name: litellm-helm
+    version: 1.99.0
+    repository: oci://ghcr.io/berriai
+    alias: litellm
+    condition: litellm.enabled

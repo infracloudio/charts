@@ -1,0 +1,56 @@
+[
+  {
+    "username": "admin",
+    "enabled": true,
+    "firstName": "Platform",
+    "lastName": "Admin",
+    "email": "admin@example.test",
+    "emailVerified": true,
+    "credentials": [
+      {
+        "type": "password",
+        "value": "admin",
+        "temporary": false
+      }
+    ],
+    "groups": [
+      "/platform-admins"
+    ]
+  },
+  {
+    "username": "alice",
+    "enabled": true,
+    "firstName": "Alice",
+    "lastName": "Example",
+    "email": "alice@example.test",
+    "emailVerified": true,
+    "credentials": [
+      {
+        "type": "password",
+        "value": "alice",
+        "temporary": false
+      }
+    ],
+    "groups": [
+      "/platform-members"
+    ]
+  },
+  {
+    "username": "bob",
+    "enabled": true,
+    "firstName": "Bob",
+    "lastName": "Example",
+    "email": "bob@example.test",
+    "emailVerified": true,
+    "credentials": [
+      {
+        "type": "password",
+        "value": "bob",
+        "temporary": false
+      }
+    ],
+    "groups": [
+      "/platform-members"
+    ]
+  }
+]

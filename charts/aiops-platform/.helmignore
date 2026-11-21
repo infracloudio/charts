@@ -1,0 +1,12 @@
+.DS_Store
+.git/
+.gitignore
+*.swp
+*.bak
+*.tmp
+*.orig
+*~
+.idea/
+.vscode/
+# Fixtures for hack/chart-lint.sh and make chart-install; not part of the package.
+test/

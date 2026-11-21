@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "aiops-platform.frontendFullname" . }}-config
+  labels:
+    {{- include "aiops-platform.labelsForComponent" (dict "root" . "component" "frontend") | nindent 4 }}
+data:
+  # Read by src/proxy.ts at request time; NEXT_PUBLIC_AIOPS_BACKEND_URL in
+  # the image is only the build-time fallback.
+  AIOPS_BACKEND_URL: "http://{{ include "aiops-platform.backendFullname" . }}:8000"
+  AUTH_MODE: oidc
+  {{- if .Values.gateway.enabled }}
+  AUTH_URL: "https://{{ include "aiops-platform.host" (dict "root" . "label" .Values.gateway.hosts.ui) }}"
+  {{- else }}
+  AUTH_URL: "http://{{ include "aiops-platform.frontendFullname" . }}"
+  {{- end }}
+  AUTH_KEYCLOAK_ISSUER: {{ include "aiops-platform.issuer" . | quote }}
+  AUTH_KEYCLOAK_ID: aiops-ui
+  {{- if .Values.global.caSecret }}
+  # Node trusts the private CA in addition to its bundled roots.
+  NODE_EXTRA_CA_CERTS: /etc/aiops/ca/ca.crt
+  {{- end }}
+  {{- range $key, $value := .Values.frontend.env }}
+  {{ $key }}: {{ $value | quote }}
+  {{- end }}

@@ -1,0 +1,73 @@
+# The local kind install (make chart-install): the dev Gateway "aiops" in
+# envoy-gateway-system is reused, a certificate for the platform wildcard
+# is issued by the dev CA, and the images are the ones make chart-images
+# loaded. make chart-install sets global.parentDomain, global.imageTag,
+# global.caSecret, gateway.tls.secretName and frontend.hostAliases on the
+# command line. Small requests: the node also runs the dev stack.
+global:
+  parentDomain: platform.127.0.0.1.nip.io
+
+backend:
+  image:
+    pullPolicy: IfNotPresent
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      memory: 1Gi
+
+frontend:
+  image:
+    pullPolicy: IfNotPresent
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      memory: 512Mi
+
+gateway:
+  enabled: true
+  create: false
+  name: aiops
+  namespace: envoy-gateway-system
+  tls:
+    secretName: aiops-platform-wildcard-tls
+    certificate:
+      create: true
+      issuerRef:
+        name: aiops-ca
+        kind: ClusterIssuer
+
+keycloak:
+  devUsers: true
+  resources:
+    requests:
+      cpu: 250m
+      memory: 512Mi
+    limits:
+      memory: 1Gi
+
+postgresql:
+  primary:
+    persistence:
+      size: 2Gi
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+      limits:
+        memory: 512Mi
+
+litellm:
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      # infra/local/litellm/values.yaml runs the dev instance at a 512Mi
+      # request with a 2Gi limit; this fixture requests 256Mi but needs
+      # the same 2Gi limit; 1Gi OOMKilled this one on every startup
+      # (Prisma client generation plus the proxy's own imports).
+      memory: 2Gi
