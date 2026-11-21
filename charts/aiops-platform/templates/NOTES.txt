@@ -1,0 +1,38 @@
+{{ .Chart.Name }} {{ .Chart.Version }} is installed as release {{ .Release.Name }} in {{ .Release.Namespace }}.
+{{- if eq .Values.global.parentDomain "aiops.example.com" }}
+
+WARNING: global.parentDomain is still the placeholder aiops.example.com.
+Set it to the DNS suffix that reaches your Gateway and upgrade the release.
+{{- end }}
+{{- if .Values.gateway.enabled }}
+
+Hosts (behind Gateway {{ include "aiops-platform.gatewayName" . }} in {{ include "aiops-platform.gatewayNamespace" . }}):
+  UI    https://{{ include "aiops-platform.host" (dict "root" . "label" .Values.gateway.hosts.ui) }}/
+  API   https://{{ include "aiops-platform.host" (dict "root" . "label" .Values.gateway.hosts.api) }}/health
+{{- if .Values.viz.enabled }}
+  Site  https://{{ include "aiops-platform.host" (dict "root" . "label" .Values.gateway.hosts.viz) }}/
+{{- end }}
+{{- if .Values.langflow.enabled }}
+  Langflow  https://{{ include "aiops-platform.langflowHost" . }}/  (signed in as the platform user)
+{{- end }}
+{{- if .Values.keycloak.enabled }}
+  Auth  {{ include "aiops-platform.issuer" . }}
+  Keycloak admin console: https://{{ include "aiops-platform.host" (dict "root" . "label" .Values.gateway.hosts.auth) }}/admin/master/console/
+    user admin, password: kubectl -n {{ .Release.Namespace }} get secret {{ .Values.secrets.name }} -o jsonpath='{.data.KEYCLOAK_ADMIN_PASSWORD}' | base64 -d
+{{- end }}
+{{- else }}
+
+gateway.enabled is false: the API and the UI are ClusterIP Services only
+({{ include "aiops-platform.backendFullname" . }}:8000, {{ include "aiops-platform.frontendFullname" . }}:80){{ if .Values.viz.enabled }},
+and so is the site ({{ include "aiops-platform.vizFullname" . }}:80){{ end }}.
+{{- end }}
+
+Credentials live in Secret {{ .Values.secrets.name }}.
+Hugging Face and NGC tokens start empty; add them with
+  kubectl -n {{ .Release.Namespace }} patch secret {{ .Values.secrets.name }} -p '{"stringData":{"HF_TOKEN":"<token>"}}'
+  kubectl -n {{ .Release.Namespace }} rollout restart deployment/{{ include "aiops-platform.backendFullname" . }}
+
+Migrations run when the backend starts; watch them with
+  kubectl -n {{ .Release.Namespace }} logs deployment/{{ include "aiops-platform.backendFullname" . }} | grep -i alembic
+
+See docs/install.md in the repository for upgrades, backups and external dependencies.

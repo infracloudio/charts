@@ -1,0 +1,51 @@
+# A single-node GPU cluster with its own GatewayClass, a private CA and a
+# model cache on a node-local StorageClass: the shape an on-premises install
+# takes when the cluster already carries cert-manager and a load balancer.
+# Rendered by hack/chart-lint.sh; no value in this file is a credential.
+global:
+  parentDomain: aiops.example.com
+  # kubectl -n aiops-platform create secret generic aiops-ca --from-file=ca.crt
+  caSecret: aiops-ca
+
+# A Grafana of your own, embedded by the instance pages.
+ui:
+  grafanaUrl: https://grafana.aiops.example.com
+
+backend:
+  env:
+    # A model server with a slow first start: begin the liveness probe early
+    # and let the startup probe cover the model download.
+    VLLM_LIVENESS_INITIAL_DELAY_SECONDS: "60"
+  hfCache:
+    create: true
+    # One node: the API pod reads the download progress from the cache.
+    mount: true
+    size: 50Gi
+    # Any ReadWriteOnce StorageClass of the node.
+    storageClass: local-path
+
+gateway:
+  enabled: true
+  create: true
+  className: aiops
+  tls:
+    secretName: aiops-wildcard-tls
+    certificate:
+      create: true
+      issuerRef:
+        name: aiops-ca
+        kind: ClusterIssuer
+
+# Langflow behind the gateway at langflow.<parentDomain>, on platform
+# identity. global.caSecret makes it trust the private CA.
+langflow:
+  enabled: true
+
+keycloak:
+  devUsers: false
+
+# The proxy's outgoing connections: the release namespace (deployed models,
+# the bundled Postgres), DNS and public addresses on 443, nothing else.
+litellm:
+  egressPolicy:
+    enabled: true

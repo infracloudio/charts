@@ -1,0 +1,110 @@
+{{- if .Values.gateway.enabled }}
+{{- $name := printf "%s-policy-check" (include "aiops-platform.fullname" .) }}
+# Runs after every install and upgrade: a SecurityPolicy the controller
+# rejects is not applied and leaves its route open, and helm alone still
+# reports success. This Job waits for Accepted=True on every policy the
+# chart renders and fails the release otherwise, so a broken policy is a
+# failed upgrade, not an open route. The per-instance policies the
+# backend creates at runtime are its own concern (backend/utils/gateway.py).
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: {{ $name }}
+  labels:
+    {{- include "aiops-platform.labels" . | nindent 4 }}
+  annotations:
+    helm.sh/hook: post-install,post-upgrade
+    helm.sh/hook-weight: "-10"
+    helm.sh/hook-delete-policy: before-hook-creation
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: {{ $name }}
+  labels:
+    {{- include "aiops-platform.labels" . | nindent 4 }}
+  annotations:
+    helm.sh/hook: post-install,post-upgrade
+    helm.sh/hook-weight: "-10"
+    helm.sh/hook-delete-policy: before-hook-creation
+rules:
+  - apiGroups: ["gateway.envoyproxy.io"]
+    resources: ["securitypolicies"]
+    verbs: ["get", "list", "watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: {{ $name }}
+  labels:
+    {{- include "aiops-platform.labels" . | nindent 4 }}
+  annotations:
+    helm.sh/hook: post-install,post-upgrade
+    helm.sh/hook-weight: "-10"
+    helm.sh/hook-delete-policy: before-hook-creation
+subjects:
+  - kind: ServiceAccount
+    name: {{ $name }}
+    namespace: {{ .Release.Namespace }}
+roleRef:
+  kind: Role
+  name: {{ $name }}
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ $name }}
+  labels:
+    {{- include "aiops-platform.labels" . | nindent 4 }}
+  annotations:
+    helm.sh/hook: post-install,post-upgrade
+    helm.sh/hook-weight: "0"
+    helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded
+spec:
+  backoffLimit: 0
+  template:
+    metadata:
+      labels:
+        {{- include "aiops-platform.componentLabels" (dict "root" . "component" "policy-check") | nindent 8 }}
+    spec:
+      serviceAccountName: {{ $name }}
+      restartPolicy: Never
+      containers:
+        - name: policy-check
+          image: {{ .Values.secrets.hook.image | quote }}
+          command:
+            - sh
+            - -ec
+            - |
+              # A plain get in a loop rather than kubectl wait --for=jsonpath:
+              # the filter expression the Accepted condition needs is not
+              # something every kubectl's wait parses.
+              accepted() {
+                kubectl -n {{ .Release.Namespace | quote }} get "securitypolicy/$1" \
+                  -o jsonpath='{.status.ancestors[*].conditions[?(@.type=="Accepted")].status}' 2>/dev/null \
+                  | grep -q True
+              }
+              for policy in aiops-workloads-oidc{{ if .Values.langflow.enabled }} {{ include "aiops-platform.langflowFullname" . }}-oidc{{ end }}; do
+                # The controller accepts the policy only once the backend and
+                # Keycloak Services have ready endpoints, so on a first install
+                # this wait covers their image pulls too.
+                tries=0
+                until accepted "$policy"; do
+                  tries=$((tries + 1))
+                  if [ "$tries" -ge {{ div (int .Values.gateway.policyCheck.timeoutSeconds) 2 }} ]; then
+                    echo "securitypolicy/$policy was not accepted by the gateway controller:" >&2
+                    kubectl -n {{ .Release.Namespace | quote }} get "securitypolicy/$policy" -o jsonpath='{.status}' >&2 || true
+                    exit 1
+                  fi
+                  sleep 2
+                done
+                echo "securitypolicy/$policy accepted"
+              done
+          resources:
+            requests:
+              cpu: 10m
+              memory: 32Mi
+            limits:
+              memory: 128Mi
+{{- end }}

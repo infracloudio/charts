@@ -1,0 +1,25 @@
+{{- if .Values.gateway.enabled }}
+# Chat answers stream browser -> ui host -> the UI's /api/chat handler ->
+# the API; Envoy's default 15 s route timeout would cut them
+# (infra/local/litellm/gateway.yaml uses the same shape). The api route
+# needs the same: an IDE or SDK holds an MCP session on /v1alpha1/mcp
+# (a GET stream, and tool calls that run longer than 15 s).
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: BackendTrafficPolicy
+metadata:
+  name: {{ include "aiops-platform.fullname" . }}-ui
+  labels:
+    {{- include "aiops-platform.labels" . | nindent 4 }}
+spec:
+  targetRefs:
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      name: {{ include "aiops-platform.fullname" . }}-ui
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      name: {{ include "aiops-platform.fullname" . }}-api
+  timeout:
+    http:
+      requestTimeout: 0s
+      streamIdleTimeout: {{ .Values.gateway.streamIdleTimeout }}
+{{- end }}

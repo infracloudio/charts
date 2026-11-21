@@ -1,0 +1,34 @@
+{{- if .Values.gateway.enabled }}
+# The one OIDC + ext-authz policy for browser-facing workload routes
+# (infra/local/auth/workloads-oidc-policy.yaml). It lives in the release
+# namespace, which is also AIOPS_NAMESPACE (templates/backend/configmap.yaml),
+# and a SecurityPolicy can only target routes in its own namespace: the
+# backend appends every nb-/vdb- instance route it creates to targetRefs
+# at runtime (backend/utils/gateway.py add_oidc_target), and fails the
+# instance install (route deleted again) when it cannot. A helm upgrade
+# keeps the appended routes because the list is unchanged between
+# renders (three-way merge).
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: SecurityPolicy
+metadata:
+  name: aiops-workloads-oidc
+  labels:
+    {{- include "aiops-platform.labels" . | nindent 4 }}
+spec:
+  targetRefs:
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      name: sso
+  oidc:
+    {{- include "aiops-platform.oidcProvider" . | nindent 4 }}
+    redirectURL: "https://{{ include "aiops-platform.host" (dict "root" . "label" .Values.gateway.hosts.sso) }}/oauth2/callback"
+    logoutPath: /oauth2/logout
+    cookieDomain: {{ .Values.global.parentDomain | quote }}
+    forwardAccessToken: true
+    refreshToken: true
+    scopes:
+      - openid
+      - profile
+      - email
+  {{- include "aiops-platform.extAuth" . | nindent 2 }}
+{{- end }}

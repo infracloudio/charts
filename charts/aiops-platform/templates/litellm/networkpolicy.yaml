@@ -1,0 +1,62 @@
+{{- if and .Values.litellm.enabled .Values.litellm.egressPolicy.enabled }}
+# Where the LiteLLM pod may connect. An organization admin registers MCP
+# servers by URL, and the platform checks a URL when it is registered
+# (public https, no private address). The proxy connects later, on every
+# call, and resolves the name again then: a DNS answer that changed
+# (rebinding), or a redirect, would reach a private address. This policy
+# is the control at call time: the release namespace (deployed models,
+# Postgres), DNS, and public addresses on the listed ports; nothing else
+# inside the cluster or the network around it, and no metadata address.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: {{ .Values.litellm.fullnameOverride }}-egress
+  labels:
+    {{- include "aiops-platform.labels" . | nindent 4 }}
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: litellm
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  policyTypes:
+    - Egress
+  egress:
+    # DNS, wherever the cluster runs it.
+    - to:
+        - namespaceSelector: {}
+      ports:
+        - protocol: UDP
+          port: 53
+        - protocol: TCP
+          port: 53
+    # The release namespace: deployed model Services, the database.
+    - to:
+        - podSelector: {}
+    {{- range .Values.litellm.egressPolicy.allowNamespaces }}
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: {{ . | quote }}
+    {{- end }}
+    {{- with .Values.litellm.egressPolicy.allowCIDRs }}
+    # Named private addresses, for example an external database.
+    - to:
+        {{- range . }}
+        - ipBlock:
+            cidr: {{ . | quote }}
+        {{- end }}
+    {{- end }}
+    # Public addresses only: hosted providers and remote MCP servers.
+    - to:
+        - ipBlock:
+            cidr: 0.0.0.0/0
+            except:
+              {{- range .Values.litellm.egressPolicy.privateCIDRs }}
+              - {{ . | quote }}
+              {{- end }}
+      ports:
+        {{- range .Values.litellm.egressPolicy.publicPorts }}
+        - protocol: TCP
+          port: {{ . }}
+        {{- end }}
+{{- end }}

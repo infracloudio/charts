@@ -1,0 +1,57 @@
+{{- if .Values.viz.enabled }}
+{{- $labels := dict "root" . "component" "viz" }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "aiops-platform.vizFullname" . }}
+  labels:
+    {{- include "aiops-platform.labelsForComponent" $labels | nindent 4 }}
+spec:
+  replicas: {{ .Values.viz.replicas }}
+  selector:
+    matchLabels:
+      {{- include "aiops-platform.componentLabels" $labels | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "aiops-platform.componentLabels" $labels | nindent 8 }}
+    spec:
+      securityContext:
+        {{- toYaml .Values.viz.podSecurityContext | nindent 8 }}
+      {{- with .Values.global.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: viz
+          image: {{ include "aiops-platform.vizImage" . | quote }}
+          imagePullPolicy: {{ .Values.viz.image.pullPolicy }}
+          securityContext:
+            {{- toYaml .Values.viz.securityContext | nindent 12 }}
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 30
+          resources:
+            {{- toYaml .Values.viz.resources | nindent 12 }}
+      {{- with .Values.viz.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.viz.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end }}

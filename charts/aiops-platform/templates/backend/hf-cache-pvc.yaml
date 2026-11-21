@@ -1,0 +1,22 @@
+{{- if .Values.backend.hfCache.create }}
+# The model cache the backend's GPU engine controllers mount by this fixed
+# name (backend/controller/base_controller.py); nothing else creates it.
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: hf-cache
+  labels:
+    {{- include "aiops-platform.labelsForComponent" (dict "root" . "component" "backend") | nindent 4 }}
+  annotations:
+    # Downloaded model weights survive helm uninstall.
+    helm.sh/resource-policy: keep
+spec:
+  accessModes:
+    {{- toYaml .Values.backend.hfCache.accessModes | nindent 4 }}
+  {{- with .Values.backend.hfCache.storageClass }}
+  storageClassName: {{ . | quote }}
+  {{- end }}
+  resources:
+    requests:
+      storage: {{ .Values.backend.hfCache.size }}
+{{- end }}

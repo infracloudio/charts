@@ -1,0 +1,66 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "aiops-platform.backendFullname" . }}-config
+  labels:
+    {{- include "aiops-platform.labelsForComponent" (dict "root" . "component" "backend") | nindent 4 }}
+data:
+  AIOPS_NAMESPACE: {{ .Release.Namespace | quote }}
+  {{- if .Values.backend.hfCache.mount }}
+  MODEL_CACHE_DIR: "/model-cache"
+  {{- end }}
+  AUTH_MODE: oidc
+  OIDC_ISSUER: {{ include "aiops-platform.issuer" . | quote }}
+  {{- if .Values.keycloak.enabled }}
+  # The JWKS is fetched in-cluster over plain HTTP: the public issuer host
+  # is not reachable from a pod on kind (nip.io resolves to the loopback
+  # address) and needs the gateway's TLS elsewhere. OIDC_ISSUER above is
+  # only compared with the token's iss claim.
+  OIDC_JWKS_URL: {{ include "aiops-platform.envoyJwksUrl" . | quote }}
+  {{- end }}
+  DATABASE_URL: {{ include "aiops-platform.databaseUrl" . | quote }}
+  DATABASE_NAME: {{ include "aiops-platform.databaseName" . | quote }}
+  DATABASE_USER: {{ include "aiops-platform.databaseUser" . | quote }}
+  {{- if .Values.gateway.enabled }}
+  AIOPS_PARENT_DOMAIN: {{ .Values.global.parentDomain | quote }}
+  AIOPS_GATEWAY_NAME: {{ include "aiops-platform.gatewayName" . | quote }}
+  AIOPS_GATEWAY_NAMESPACE: {{ include "aiops-platform.gatewayNamespace" . | quote }}
+  # The UI's public address: an MCP server's OAuth sign-in sends the
+  # browser back to <this>/mcp-servers/oauth/callback. Without it (no
+  # gateway) OAuth servers cannot be added; everything else works.
+  AIOPS_UI_URL: "https://{{ include "aiops-platform.host" (dict "root" . "label" .Values.gateway.hosts.ui) }}"
+  {{- end }}
+  LITELLM_URL: {{ include "aiops-platform.litellmUrl" . | quote }}
+  GRAFANA_URL: {{ .Values.ui.grafanaUrl | quote }}
+  LANGFLOW_URL: {{ include "aiops-platform.langflowUrl" . | quote }}
+  {{- if .Values.langflow.enabled }}
+  # The backend calls Langflow's API as the caller (utils/langflow.py):
+  # through the Service here, where Langflow verifies the token itself.
+  LANGFLOW_API_URL: "http://{{ include "aiops-platform.langflowFullname" . }}:7860"
+  # Where a flow reaches the platform's MCP endpoint (/v1alpha1/mcp): the
+  # backend writes it, with a token of scope mcp, into the member's
+  # Langflow variables.
+  AIOPS_BACKEND_CLUSTER_URL: "http://{{ include "aiops-platform.backendFullname" . }}:8000"
+  {{- else if .Values.ui.langflowUrl }}
+  # A Langflow of yours, on platform identity: the same API through its
+  # public address (Langflow verifies the forwarded token there too).
+  LANGFLOW_API_URL: {{ .Values.ui.langflowUrl | quote }}
+  {{- end }}
+  JAEGER_URL: {{ .Values.ui.jaegerUrl | quote }}
+  # Always rendered: for the backend, unset means the public registry
+  # and empty means that import is off.
+  {{- if .Values.litellm.enabled }}
+  # Who may call a deployed MCP server: the proxy's pods and nobody
+  # else (the network policy of charts/mcp-server). With an external
+  # LiteLLM, set backend.mcp.proxyNamespace and proxyPodLabels; without
+  # both, the backend refuses to deploy.
+  AIOPS_LITELLM_NAMESPACE: {{ .Release.Namespace | quote }}
+  AIOPS_LITELLM_POD_LABELS: "app.kubernetes.io/name=litellm,app.kubernetes.io/instance={{ .Release.Name }}"
+  {{- else if .Values.backend.mcp.proxyNamespace }}
+  AIOPS_LITELLM_NAMESPACE: {{ .Values.backend.mcp.proxyNamespace | quote }}
+  AIOPS_LITELLM_POD_LABELS: {{ .Values.backend.mcp.proxyPodLabels | quote }}
+  {{- end }}
+  AIOPS_MCP_REGISTRY_URL: {{ .Values.backend.mcp.registryUrl | quote }}
+  {{- range $key, $value := .Values.backend.env }}
+  {{ $key }}: {{ $value | quote }}
+  {{- end }}
