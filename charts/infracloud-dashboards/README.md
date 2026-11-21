@@ -1,6 +1,8 @@
 # infracloud-dashboards
 
-A helm chart to deploy the [InfraCloud Dashboards](https://github.com/infracloudio/charts/tree/main/charts/infracloud-dashboards/grafana-dashboards) from InfraCloud. We have forked few original dashboards from community and added few customizations to make it work with our setup.
+A Helm chart that deploys the Grafana dashboards this project uses: TGI, TEI, vLLM, NVIDIA DCGM and LiteLLM.
+The community dashboards are forked and adapted for the labels these charts emit;
+the LiteLLM dashboard is written for this project.
 
 ## Setup Helm Repository
 

@@ -16,7 +16,7 @@ type: application
 # This is the chart version. This version number should be incremented each time you make changes
 # to the chart and its templates, including the app version.
 # Versions are expected to follow Semantic Versioning (https://semver.org/)
-version: 0.6.1
+version: 0.6.2
 
 # This is the version number of the application being deployed. This version number should be
 # incremented each time you make changes to the application. Versions are not expected to
@@ -26,31 +26,31 @@ appVersion: ""
 
 dependencies:
   - name: text-generation-inference
-    version: 0.3.0
+    version: 0.3.1
     repository: "file://../text-generation-inference"
     alias: tgi
     condition: tgi.enabled
 
   - name: text-embeddings-inference
-    version: 0.3.0
+    version: 0.3.1
     repository: "file://../text-embeddings-inference"
     alias: tei
     condition: tei.enabled
 
   - name: text-embeddings-inference
-    version: 0.3.0
+    version: 0.3.1
     repository: "file://../text-embeddings-inference"
     alias: reranker
     condition: reranker.enabled
 
   - name: chromadb
-    version: 0.3.0
+    version: 0.3.1
     repository: "file://../chromadb"
     alias: vectordb
     condition: vectordb.enabled
 
   - name: vllm
-    version: 0.4.1
+    version: 0.4.2
     repository: "file://../vllm"
     alias: vllm
     condition: vllm.enabled
@@ -64,11 +64,11 @@ keywords:
   - reranker
   - embeddings
 
-home: https://github.com/infracloudio/charts
+home: https://github.com/improving/aiops-platform
 
 maintainers:
-  - name: infracloudio
-    url: https://github.com/infracloudio
+  - name: improving
+    url: https://github.com/improving
 
 sources:
-  - https://github.com/infracloudio/charts
+  - https://github.com/improving/aiops-platform
