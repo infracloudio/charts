@@ -2,6 +2,56 @@ apiVersion: v1
 entries:
   ai-stack:
   - apiVersion: v2
+    created: "2026-11-21T11:52:11.205010211Z"
+    dependencies:
+    - alias: tgi
+      condition: tgi.enabled
+      name: text-generation-inference
+      repository: file://../text-generation-inference
+      version: 0.3.1
+    - alias: tei
+      condition: tei.enabled
+      name: text-embeddings-inference
+      repository: file://../text-embeddings-inference
+      version: 0.3.1
+    - alias: reranker
+      condition: reranker.enabled
+      name: text-embeddings-inference
+      repository: file://../text-embeddings-inference
+      version: 0.3.1
+    - alias: vectordb
+      condition: vectordb.enabled
+      name: chromadb
+      repository: file://../chromadb
+      version: 0.3.1
+    - alias: vllm
+      condition: vllm.enabled
+      name: vllm
+      repository: file://../vllm
+      version: 0.4.2
+    description: 'AI Services chart from InfraCloud, includes services like LLM API,
+      Embeddings, Reranker API and VectorDB. '
+    digest: 8b64b376f06f35848bf32b001b2e4203b48b75edd5597b30548422ab892507d8
+    home: https://github.com/improving/aiops-platform
+    keywords:
+    - ai-stack
+    - ai-services
+    - ai-apps
+    - vectordb
+    - llm
+    - reranker
+    - embeddings
+    maintainers:
+    - name: improving
+      url: https://github.com/improving
+    name: ai-stack
+    sources:
+    - https://github.com/improving/aiops-platform
+    type: application
+    urls:
+    - https://github.com/infracloudio/charts/releases/download/ai-stack-0.6.2/ai-stack-0.6.2.tgz
+    version: 0.6.2
+  - apiVersion: v2
     created: "2026-09-18T15:32:35.177493353Z"
     dependencies:
     - alias: tgi
@@ -698,6 +748,44 @@ entries:
     urls:
     - https://github.com/infracloudio/charts/releases/download/ai-stack-0.1.0/ai-stack-0.1.0.tgz
     version: 0.1.0
+  aiops-platform:
+  - apiVersion: v2
+    appVersion: main
+    created: "2026-11-21T11:52:11.380990389Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: oci://registry-1.docker.io/bitnamicharts
+      version: 16.7.27
+    - condition: keycloak.enabled
+      name: keycloak
+      repository: oci://registry-1.docker.io/bitnamicharts
+      version: 25.2.0
+    - alias: litellm
+      condition: litellm.enabled
+      name: litellm-helm
+      repository: oci://ghcr.io/berriai
+      version: 1.99.0
+    description: 'The AIOps control plane (backend API and UI) with its gateway objects
+      and, optionally, Postgres, Keycloak and LiteLLM. Every dependency can be turned
+      off and replaced by an external system (docs/install.md). '
+    digest: 46b5e3687678ce576190935b8e5722f2166595af2ac9db06c1906255d20816e8
+    home: https://github.com/improving/aiops-platform
+    keywords:
+    - aiops
+    - control-plane
+    - keycloak
+    - litellm
+    maintainers:
+    - name: improving
+      url: https://github.com/improving
+    name: aiops-platform
+    sources:
+    - https://github.com/improving/aiops-platform
+    type: application
+    urls:
+    - https://github.com/infracloudio/charts/releases/download/aiops-platform-0.3.13/aiops-platform-0.3.13.tgz
+    version: 0.3.13
   botkube:
   - apiVersion: v1
     appVersion: v9.99.9-dev
@@ -1077,6 +1165,28 @@ entries:
   chromadb:
   - apiVersion: v2
     appVersion: 1.5.9
+    created: "2026-11-21T11:52:11.487868156Z"
+    description: Helm chart for deploying ChromaDB
+    digest: d8867b682432a0831baed5fab08c50e975c87aec4adf6929ddad126ee21341e1
+    home: https://www.trychroma.com
+    keywords:
+    - vectordb
+    - chromadb
+    - embeddings
+    - ai-apps
+    - rag
+    maintainers:
+    - name: improving
+      url: https://github.com/improving
+    name: chromadb
+    sources:
+    - https://github.com/chroma-core/chroma
+    type: application
+    urls:
+    - https://github.com/infracloudio/charts/releases/download/chromadb-0.3.1/chromadb-0.3.1.tgz
+    version: 0.3.1
+  - apiVersion: v2
+    appVersion: 1.5.9
     created: "2026-09-05T06:51:29.605223921Z"
     description: Helm chart for deploying ChromaDB
     digest: 4291a4b49c357b9fece19198845a20f58d6ac3890e7407e9b921ea1616985e98
@@ -1172,6 +1282,28 @@ entries:
   guardrails-usvc:
   - apiVersion: v2
     appVersion: v1.0
+    created: "2026-11-21T11:52:11.608135416Z"
+    dependencies:
+    - alias: tgi
+      condition: autodependency.enabled
+      name: opea-tgi
+      repository: file://../opea-tgi
+      version: 1.1.1
+    description: The Helm chart for deploying guardrails-usvc as microservice
+    digest: 76bb82a9d7a7a9e404d4af98a53d965a2c3ab577d645f1a5c8661859ae0cff67
+    home: https://github.com/opea-project/GenAIComps
+    maintainers:
+    - name: improving
+      url: https://github.com/improving
+    name: guardrails-usvc
+    sources:
+    - https://github.com/opea-project/GenAIComps
+    type: application
+    urls:
+    - https://github.com/infracloudio/charts/releases/download/guardrails-usvc-1.0.2/guardrails-usvc-1.0.2.tgz
+    version: 1.0.2
+  - apiVersion: v2
+    appVersion: v1.0
     created: "2026-09-05T06:51:29.744965581Z"
     dependencies:
     - alias: tgi
@@ -1209,6 +1341,16 @@ entries:
     - https://github.com/infracloudio/charts/releases/download/guardrails-usvc-1.0.0/guardrails-usvc-1.0.0.tgz
     version: 1.0.0
   infracloud-dashboards:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2026-11-21T11:52:11.725062594Z"
+    description: Grafana dashboards for TGI, TEI, vLLM, DCGM and LiteLLM
+    digest: d9675d9737e317ddf4cc5d1a9675fff664497e247cab58c2f3378c4346fde7e8
+    name: infracloud-dashboards
+    type: application
+    urls:
+    - https://github.com/infracloudio/charts/releases/download/infracloud-dashboards-0.1.5/infracloud-dashboards-0.1.5.tgz
+    version: 0.1.5
   - apiVersion: v2
     appVersion: 1.16.0
     created: "2026-09-06T06:44:20.810901594Z"
@@ -1335,6 +1477,27 @@ entries:
   mcp-server:
   - apiVersion: v2
     appVersion: "1.0"
+    created: "2026-11-21T11:52:11.849100996Z"
+    description: One MCP server (streamable HTTP) behind a policy that admits only
+      the platform's proxy
+    digest: f106049502edc163981cde3b1cb362750a24b220d12935274fccb3d671833c4e
+    home: https://modelcontextprotocol.io
+    keywords:
+    - mcp
+    - model-context-protocol
+    - tools
+    maintainers:
+    - name: improving
+      url: https://github.com/improving
+    name: mcp-server
+    sources:
+    - https://github.com/improving/aiops-platform
+    type: application
+    urls:
+    - https://github.com/infracloudio/charts/releases/download/mcp-server-0.1.1/mcp-server-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
+    appVersion: "1.0"
     created: "2026-09-20T12:37:30.53665702Z"
     description: One MCP server (streamable HTTP) behind a policy that admits only
       the platform's proxy
@@ -1357,6 +1520,26 @@ entries:
   ollama:
   - apiVersion: v2
     appVersion: 0.33.3
+    created: "2026-11-21T11:52:11.974024395Z"
+    description: A Helm chart for serving small models on CPU or GPU with Ollama
+    digest: 7ec07db268a351c300244d26e979b655a9a3795409ad948db2a6e29aaec00caa
+    home: https://ollama.com
+    keywords:
+    - ollama
+    - llm
+    - cpu
+    maintainers:
+    - name: improving
+      url: https://github.com/improving
+    name: ollama
+    sources:
+    - https://github.com/ollama/ollama
+    type: application
+    urls:
+    - https://github.com/infracloudio/charts/releases/download/ollama-0.1.2/ollama-0.1.2.tgz
+    version: 0.1.2
+  - apiVersion: v2
+    appVersion: 0.33.3
     created: "2026-09-05T17:22:07.133806244Z"
     description: A Helm chart for serving small models on CPU or GPU with Ollama
     digest: f4c6282124733265dda9ae0b17529d2cbc8afa9e095e06b835380b0ca9f173cc
@@ -1376,6 +1559,23 @@ entries:
     - https://github.com/infracloudio/charts/releases/download/ollama-0.1.1/ollama-0.1.1.tgz
     version: 0.1.1
   opea-tgi:
+  - apiVersion: v2
+    appVersion: 2.4.1
+    created: "2026-11-21T11:52:12.098324273Z"
+    description: The Helm chart for HuggingFace Text Generation Inference Server
+    digest: 93311863fda2fffd3920ba89685148b4116cc975f9575bac4fe5249a54b5e6e1
+    home: https://github.com/opea-project/GenAIComps
+    maintainers:
+    - name: improving
+      url: https://github.com/improving
+    name: opea-tgi
+    sources:
+    - https://github.com/huggingface/text-generation-inference
+    - https://github.com/opea-project/GenAIComps
+    type: application
+    urls:
+    - https://github.com/infracloudio/charts/releases/download/opea-tgi-1.1.1/opea-tgi-1.1.1.tgz
+    version: 1.1.1
   - apiVersion: v2
     appVersion: 2.4.1
     created: "2026-09-05T06:51:29.888516967Z"
@@ -1404,6 +1604,29 @@ entries:
     - https://github.com/infracloudio/charts/releases/download/opea-tgi-1.0.0/opea-tgi-1.0.0.tgz
     version: 1.0.0
   text-embeddings-inference:
+  - apiVersion: v2
+    appVersion: 1.9.3
+    created: "2026-11-21T11:52:12.217007684Z"
+    description: A Helm chart for deploying Text Embeddings Inference(TEI) from Hugging
+      Face
+    digest: 98acef26373d6191effe448cc86ae4aaeaa543b15bec79b3cba313d0c6da674b
+    home: https://huggingface.co/docs/text-embeddings-inference
+    keywords:
+    - tei
+    - text-embeddings-inference
+    - embeddings
+    - huggingface
+    - rag
+    maintainers:
+    - name: improving
+      url: https://github.com/improving
+    name: text-embeddings-inference
+    sources:
+    - https://github.com/huggingface/text-embeddings-inference
+    type: application
+    urls:
+    - https://github.com/infracloudio/charts/releases/download/text-embeddings-inference-0.3.1/text-embeddings-inference-0.3.1.tgz
+    version: 0.3.1
   - apiVersion: v2
     appVersion: 1.9.3
     created: "2026-09-05T06:51:30.037876976Z"
@@ -1575,6 +1798,29 @@ entries:
     - https://github.com/infracloudio/charts/releases/download/text-embeddings-inference-0.1.0/text-embeddings-inference-0.1.0.tgz
     version: 0.1.0
   text-generation-inference:
+  - apiVersion: v2
+    appVersion: 3.3.7
+    created: "2026-11-21T11:52:12.331666968Z"
+    description: A Helm chart for deploying Text Generation Inference(TGI) from Hugging
+      Face
+    digest: a4b56411fbb588857a947f13716838a14553e5dff05d9b97e88954840c95dc07
+    home: https://huggingface.co/docs/text-generation-inference
+    keywords:
+    - tgi
+    - text-generation-inference
+    - llm
+    - huggingface
+    - rag
+    maintainers:
+    - name: improving
+      url: https://github.com/improving
+    name: text-generation-inference
+    sources:
+    - https://github.com/huggingface/text-generation-inference
+    type: application
+    urls:
+    - https://github.com/infracloudio/charts/releases/download/text-generation-inference-0.3.1/text-generation-inference-0.3.1.tgz
+    version: 0.3.1
   - apiVersion: v2
     appVersion: 3.3.7
     created: "2026-09-05T06:51:30.179151713Z"
@@ -1778,6 +2024,27 @@ entries:
   vllm:
   - apiVersion: v2
     appVersion: v0.28.0
+    created: "2026-11-21T11:52:12.462093324Z"
+    description: A Helm chart for deploying models with vLLM
+    digest: 7963250afe872300d0601764af4eb647c0aa0ebc8d24674cd367fbc417264cd7
+    home: https://docs.vllm.ai
+    keywords:
+    - vllm
+    - llm
+    - huggingface
+    - rag
+    maintainers:
+    - name: improving
+      url: https://github.com/improving
+    name: vllm
+    sources:
+    - https://github.com/vllm-project/vllm
+    type: application
+    urls:
+    - https://github.com/infracloudio/charts/releases/download/vllm-0.4.2/vllm-0.4.2.tgz
+    version: 0.4.2
+  - apiVersion: v2
+    appVersion: v0.28.0
     created: "2026-09-18T15:32:35.51065374Z"
     description: A Helm chart for deploying models with vLLM
     digest: 4a4e5d2842989d4c36d34d7bfb9d04847c480ef3eed48a894c7ab37b0cc661a3
@@ -1886,4 +2153,4 @@ entries:
     urls:
     - https://github.com/infracloudio/charts/releases/download/vllm-0.1.0/vllm-0.1.0.tgz
     version: 0.1.0
-generated: "2026-09-20T12:37:30.536801719Z"
+generated: "2026-11-21T11:52:12.46234053Z"
